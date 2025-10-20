@@ -31,7 +31,7 @@
 
 > I eliminate the million-dollar risks that keep CTOs awake at 3 AM: system failures that lose revenue, infrastructure that can't scale, and teams that can't deliver reliably.
 
-I focus on making reliability systematic — not reactive. Over 20 years, I’ve led transformations that made financial, e-commerce, and blockchain platforms scale seamlessly and recover automatically, blending technical leadership with deep engineering discipline.
+I focus on making reliability systematic — not reactive. Over 20 years, I've led transformations that made financial, e-commerce, and blockchain platforms scale seamlessly and recover automatically, blending technical leadership with deep engineering discipline.
 
 ---
 
@@ -110,25 +110,23 @@ Form3 API client with GitHub-style HATEOAS pagination and executable documentati
 
 ---
 
-<!--
-## 🎤 Talks & Writing
+## 🎤 Writing & Talks
 
-> Coming soon: Reliability engineering deep-dives, architecture walkthroughs, and blockchain consensus insights.
+Currently writing about reliability, architecture, and building systems that must not fail.  
+More to come — deep dives into scaling, process design, and the invisible layers of infrastructure.
+
+- [Building Financial Infrastructure That Must Not Fail](./articles/building-financial-infrastructure-that-must-not-fail.md)
 
 ---
--->
+
 
 ## 🎯 What I'm Looking For
 
-**Principal/Staff Engineer roles** tackling complex architecture while mentoring teams.  
+Exploring **Principal Engineer**, **Staff Engineer**, or **Enginering Manager** roles focused on architecture, reliability, and engineering excellence.  
+I guide teams through technical direction and process design — not management hierarchy — ensuring systems and practices meet the highest quality standards.  
+My passion is building infrastructure that must not fail and cultivating the engineering discipline that makes that possible.
 
-**Technical Leadership positions** bridging technical and organizational challenges.  
-
-**Systems architecture challenges** in distributed, financial, or blockchain systems.  
-
-**Available for consulting and fractional CTO engagements.**
-
-If you’re scaling critical systems or modernizing legacy infrastructure, I’d love to discuss how I can help.
+If you're scaling critical systems or modernizing legacy infrastructure, I'd love to discuss how I can help.
 
 ---
 
