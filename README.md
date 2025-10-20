@@ -8,7 +8,6 @@
 
 ---
 
-![Visitors](https://komarev.com/ghpvc/?username=screwyprof&color=blue)
 [![Go](https://img.shields.io/badge/Go-00ADD8?style=flat-square&logo=go&logoColor=white)](https://go.dev)
 [![Rust](https://img.shields.io/badge/Rust-D34516?style=flat-square&logo=rust&logoColor=white)](https://www.rust-lang.org)
 [![AWS](https://img.shields.io/badge/Cloud-AWS-FF9900?style=flat-square&logo=amazon-aws&logoColor=white)](https://aws.amazon.com)
@@ -143,19 +142,9 @@ Let's discuss how I can help transform your critical systems into reliable, scal
 ---
 
 <!--
-<picture>
-  <source
-    srcset="https://github-readme-stats.vercel.app/api/top-langs?username=screwyprof&show_icons=true&layout=compact&theme=dark"
-    media="(prefers-color-scheme: dark)"
-  />
-  <source
-    srcset="https://github-readme-stats.vercel.app/api/top-langs?username=screwyprof&show_icons=true&layout=compact"
-    media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
-  />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs?username=screwyprof&show_icons=true&layout=compact" alt="Top languages"/>
-</picture>
-
----
+<p align="center">
+  <img src="https://komarev.com/ghpvc/?username=screwyprof&color=gray" alt="Profile views">
+</p>
 -->
 
 <p align="center">
