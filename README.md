@@ -127,10 +127,17 @@ Let's discuss how I can help transform your critical systems into reliable, scal
 
 ![Visitors](https://komarev.com/ghpvc/?username=screwyprof&color=blue) <a href="https://golang.org"><img src="https://img.shields.io/badge/Go-00ADD8?style=flat-square&logo=go" alt="Go programming language"></a> <a href="https://www.rust-lang.org"><img src="https://img.shields.io/badge/Rust-000000?style=flat-square&logo=rust" alt="Rust programming language"></a> <a href="https://ethereum.org"><img src="https://img.shields.io/badge/Ethereum-3C3C3D?style=flat-square&logo=ethereum" alt="Ethereum blockchain"></a> <a href="https://aws.amazon.com"><img src="https://img.shields.io/badge/AWS-FF9900?style=flat-square&logo=amazon-aws" alt="AWS cloud"></a> <a href="https://kubernetes.io"><img src="https://img.shields.io/badge/Kubernetes-326CE5?style=flat-square&logo=kubernetes" alt="Kubernetes container orchestration"></a> <a href="https://www.docker.com"><img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker" alt="Docker containerization"></a>
 
-<p>
-  <img src="https://github-readme-stats.vercel.app/api/top-langs?username=screwyprof&show_icons=true&locale=en&layout=compact&theme=github_dark#gh-dark-mode-only" alt="Top languages" />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs?username=screwyprof&show_icons=true&locale=en&layout=compact&theme=default#gh-light-mode-only" alt="Top languages" />
-</p>
+<picture>
+  <source
+    srcset="https://github-readme-stats.vercel.app/api/top-langs?username=screwyprof&show_icons=true&layout=compact&theme=dark"
+    media="(prefers-color-scheme: dark)"
+  />
+  <source
+    srcset="https://github-readme-stats.vercel.app/api/top-langs?username=screwyprof&show_icons=true&layout=compact"
+    media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
+  />
+  <img src="https://github-readme-stats.vercel.app/api/top-langs?username=screwyprof&show_icons=true&layout=compact" alt="Top languages"/>
+</picture>
 
 
 <!-- SEO keywords: Golang, Rust, Ethereum, Reliability Engineering, Distributed Systems, Blockchain, DDD, CQRS, AWS, Kubernetes, Docker, CI/CD, PostgreSQL, gRPC, OpenAPI, REST, Scalability, System Architecture, Technical Leadership, Principal Engineer, Staff Engineer -->
