@@ -1,19 +1,30 @@
 <!-- Maksim Shcherbo GitHub profile (screwyprof) -->
+<!-- Summary: Principal Engineer specializing in clean architecture, quality, distributed systems, and blockchain infrastructure. -->
 # Maksim Shcherbo — Principal Engineer | Reliability Architect | Distributed Systems Expert
 
 *(GitHub handle: [@screwyprof](https://github.com/screwyprof))*
 
 **Specialties:** distributed systems, reliability engineering, system scalability, blockchain infrastructure, and fault-tolerant architecture.
 
+---
+
+![Visitors](https://komarev.com/ghpvc/?username=screwyprof&color=blue)
+[![Go](https://img.shields.io/badge/Go-00ADD8?style=flat-square&logo=go&logoColor=white)](https://go.dev)
+[![Rust](https://img.shields.io/badge/Rust-D34516?style=flat-square&logo=rust&logoColor=white)](https://www.rust-lang.org)
+[![AWS](https://img.shields.io/badge/Cloud-AWS-FF9900?style=flat-square&logo=amazon-aws&logoColor=white)](https://aws.amazon.com)
+[![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=flat-square&logo=kubernetes&logoColor=white)](https://kubernetes.io)
+[![Docker](https://img.shields.io/badge/Docker-257bd6?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com)
+[![gRPC](https://img.shields.io/badge/gRPC-protocol-blue?style=flat-square&logo=grpc)](https://grpc.io)
+[![OpenTelemetry](https://img.shields.io/badge/OpenTelemetry-blue?style=flat-square&logo=opentelemetry)](https://opentelemetry.io/)
+[![OpenAPI](https://img.shields.io/badge/OpenAPI-6BA539?style=flat-square&logo=openapiinitiative&logoColor=white)](https://www.openapis.org)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=flat-square&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Ethereum](https://img.shields.io/badge/Ethereum-3C3C3D?style=flat-square&logo=ethereum&logoColor=white)](https://ethereum.org)
+
+---
+
 ### “I stop outages before they happen”
 
 > I design and lead the build of fault-tolerant systems that keep critical platforms online when everything else fails. With over two decades in finance, blockchain, and high-scale e-commerce, I help organizations eliminate fragility and protect revenue through resilient engineering.
-
-<!--
-<div align="center">
-<img src="social-preview.png" width="100%" alt="Maksim Shcherbo — Reliability Engineering & Distributed Systems">
-</div>
--->
 
 ---
 
@@ -34,6 +45,7 @@ I focus on making reliability systematic — not reactive. Over 20 years, I’ve
 - ✅ **Regulated trading system** → Transformed chaotic operations into **99.99% uptime** platform while leading teams through complete system modernization
 - ✅ **Distributed RNG protocol** → Pioneered on-chain random number generation using cryptographic protocol with `El-Gamal` encryption and `Tendermint` validators.
 
+<!--
 <details open>
 <summary>📊 Key metrics summary</summary>
 
@@ -43,6 +55,7 @@ I focus on making reliability systematic — not reactive. Over 20 years, I’ve
 | Scale | 16,000+ RPS | Designed backend services at major e-commerce platform |
 | Assets | $2+ billion | Safeguarded assets on ConsenSys staking backend |
 </details>
+-->
 
 ---
 
@@ -122,15 +135,14 @@ If you’re scaling critical systems or modernizing legacy infrastructure, I’d
 
 ## 📫 Contact
 
-<a href="https://linkedin.com/in/maksim-shcherbo"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white" alt="LinkedIn profile"></a> <a href="mailto:max@happygopher.nl"><img src="https://img.shields.io/badge/Email-D14836?style=flat-square&logo=gmail&logoColor=white" alt="Email"></a>
+<a href="https://linkedin.com/in/maksim-shcherbo"><img src="https://custom-icon-badges.demolab.com/badge/LinkedIn-0A66C2?style=flat-square&logo=linkedin-white&logoColor=fff" alt="LinkedIn profile"></a> <a href="mailto:max@happygopher.nl"><img src="https://img.shields.io/badge/Email-D14836?style=flat-square&logo=gmail&logoColor=white" alt="Email"></a>
 
 Let's discuss how I can help transform your critical systems into reliable, scalable infrastructure.
 
 
 ---
 
-![Visitors](https://komarev.com/ghpvc/?username=screwyprof&color=blue) <a href="https://golang.org"><img src="https://img.shields.io/badge/Go-00ADD8?style=flat-square&logo=go" alt="Go programming language"></a> <a href="https://www.rust-lang.org"><img src="https://img.shields.io/badge/Rust-000000?style=flat-square&logo=rust" alt="Rust programming language"></a> <a href="https://ethereum.org"><img src="https://img.shields.io/badge/Ethereum-3C3C3D?style=flat-square&logo=ethereum" alt="Ethereum blockchain"></a> <a href="https://aws.amazon.com"><img src="https://img.shields.io/badge/AWS-FF9900?style=flat-square&logo=amazon-aws" alt="AWS cloud"></a> <a href="https://kubernetes.io"><img src="https://img.shields.io/badge/Kubernetes-326CE5?style=flat-square&logo=kubernetes" alt="Kubernetes container orchestration"></a> <a href="https://www.docker.com"><img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker" alt="Docker containerization"></a>
-
+<!--
 <picture>
   <source
     srcset="https://github-readme-stats.vercel.app/api/top-langs?username=screwyprof&show_icons=true&layout=compact&theme=dark"
@@ -143,5 +155,16 @@ Let's discuss how I can help transform your critical systems into reliable, scal
   <img src="https://github-readme-stats.vercel.app/api/top-langs?username=screwyprof&show_icons=true&layout=compact" alt="Top languages"/>
 </picture>
 
+---
+-->
+
+<p align="center">
+  <a href="https://go.dev"><img alt="Go" src="https://img.shields.io/badge/Go-1E293B?style=flat-square&logo=go&logoColor=white&labelColor=1E293B"></a>
+  <a href="https://www.rust-lang.org/"><img alt="Rust" src="https://img.shields.io/badge/Rust-1E293B?style=flat-square&logo=rust&logoColor=white&labelColor=1E293B"></a>
+  <a href="https://ethereum.org"><img alt="Ethereum" src="https://img.shields.io/badge/Ethereum-1E293B?style=flat-square&logo=ethereum&logoColor=white&labelColor=1E293B"></a>
+  <a href="https://aws.amazon.com"><img alt="AWS" src="https://img.shields.io/badge/Cloud-Amazon_AWS-1E293B?style=flat-square&logo=amazon-aws&logoColor=white&labelColor=1E293B"></a>
+  <a href="https://kubernetes.io"><img alt="Kubernetes" src="https://img.shields.io/badge/Kubernetes-1E293B?style=flat-square&logo=kubernetes&logoColor=white&labelColor=1E293B"></a>
+  <a href="https://www.docker.com"><img alt="Docker" src="https://img.shields.io/badge/Docker-1E293B?style=flat-square&logo=docker&logoColor=white&labelColor=1E293B"></a>
+</p>
 
 <!-- SEO keywords: Golang, Rust, Ethereum, Reliability Engineering, Distributed Systems, Blockchain, DDD, CQRS, AWS, Kubernetes, Docker, CI/CD, PostgreSQL, gRPC, OpenAPI, REST, Scalability, System Architecture, Technical Leadership, Principal Engineer, Staff Engineer -->
