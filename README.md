@@ -7,7 +7,7 @@
 
 ### “I stop outages before they happen”
 
-> Senior distributed systems and reliability engineer with 20+ years of experience building resilient platforms in finance, blockchain, and high-traffic e-commerce.
+> I design and lead the build of fault-tolerant systems that keep critical platforms online when everything else fails. With over two decades in finance, blockchain, and high-scale e-commerce, I help organizations eliminate fragility and protect revenue through resilient engineering.
 
 <!--
 <div align="center">
@@ -21,7 +21,7 @@
 
 > I eliminate the million-dollar risks that keep CTOs awake at 3 AM: system failures that lose revenue, infrastructure that can't scale, and teams that can't deliver reliably.
 
-I build platforms that recover invisibly — turning fragile systems into resilient infrastructure that protects revenue, reputation, and business continuity. My expertise spans both technical leadership and hands-on implementation, with 20+ years of systematic approaches to reliability that scale across financial systems, e-commerce platforms, and institutional-grade blockchain technology.
+I focus on making reliability systematic — not reactive. Over 20 years, I’ve led transformations that made financial, e-commerce, and blockchain platforms scale seamlessly and recover automatically, blending technical leadership with deep engineering discipline.
 
 ---
 
@@ -34,7 +34,7 @@ I build platforms that recover invisibly — turning fragile systems into resili
 - ✅ **Regulated trading system** → Transformed chaotic operations into **99.99% uptime** platform while leading teams through complete system modernization
 - ✅ **Distributed RNG protocol** → Pioneered on-chain random number generation using cryptographic protocol with `El-Gamal` encryption and `Tendermint` validators.
 
-<details>
+<details open>
 <summary>📊 Key metrics summary</summary>
 
 | Area | Metric | Description |
@@ -116,6 +116,7 @@ Form3 API client with GitHub-style HATEOAS pagination and executable documentati
 
 **Available for consulting and fractional CTO engagements.**
 
+If you’re scaling critical systems or modernizing legacy infrastructure, I’d love to discuss how I can help.
 
 ---
 
