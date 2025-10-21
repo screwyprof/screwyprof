@@ -115,10 +115,13 @@ Form3 API client with GitHub-style HATEOAS pagination and executable documentati
 Currently writing about reliability, architecture, and building systems that must not fail.  
 More to come — deep dives into scaling, process design, and the invisible layers of infrastructure.
 
+📘 **Articles**
 - [Building Financial Infrastructure That Must Not Fail](./articles/building-financial-infrastructure-that-must-not-fail.md)
 
----
+💬 **Join the discussion on LinkedIn:**  
+[Building Infrastructure That Must Not Fail — LinkedIn Article](https://www.linkedin.com/pulse/building-infrastructure-must-fail-maksim-shcherbo-1d4se)
 
+---
 
 ## 🎯 What I'm Looking For
 
