@@ -1,9 +1,10 @@
 <!--
 ---
-title: "Building Financial Infrastructure That Must Not Fail"
+title: "Building Infrastructure That Must Not Fail"
 author: "Maksim Shcherbo"
-description: "Lessons from building institutional-grade reliability in blockchain and financial systems — entirely from public information and general principles."
-tags: [Reliability, Blockchain, Ethereum, Infrastructure, Engineering, Case Study]
+description: "Senior engineer sharing lessons from building Ethereum staking infrastructure that must not fail — reliability, testing, and quality at scale."
+tags: [Reliability, Blockchain, Ethereum, Infrastructure, Software Engineering]
+canonical_url: "https://www.linkedin.com/pulse/building-infrastructure-must-fail-maksim-shcherbo-1d4se"
 ---
 -->
 
