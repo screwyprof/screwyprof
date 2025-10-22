@@ -125,9 +125,11 @@ More to come — deep dives into scaling, process design, and the invisible laye
 
 ## 🎯 What I'm Looking For
 
-Exploring **Principal Engineer**, **Staff Engineer**, or **Enginering Manager** roles focused on architecture, reliability, and engineering excellence.  
-I guide teams through technical direction and process design — not management hierarchy — ensuring systems and practices meet the highest quality standards.  
-My passion is building infrastructure that must not fail and cultivating the engineering discipline that makes that possible.
+Exploring **Principal Engineer**, **Staff Engineer**, or **Enginering Manager** roles focused on architecture, reliability, and engineering excellence.
+
+I guide teams through technical direction and process design — not management hierarchy — ensuring systems and practices meet the highest quality standards.
+
+My passion is building infrastructure that must not fail and cultivating the engineering discipline that makes that possible.  
 
 If you're scaling critical systems or modernizing legacy infrastructure, I'd love to discuss how I can help.
 
