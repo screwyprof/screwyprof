@@ -2,7 +2,7 @@
 <!-- Summary: Principal Engineer specializing in clean architecture, quality, distributed systems, and blockchain infrastructure. -->
 # Maksim Shcherbo — Principal Engineer | Reliability Architect | Distributed Systems Expert
 
-*(GitHub handle: [@screwyprof](https://github.com/screwyprof))*
+*(Also known as [@screwyprof](https://github.com/screwyprof) on GitHub)*
 
 **Specialties:** distributed systems, reliability engineering, system scalability, blockchain infrastructure, and fault-tolerant architecture.
 
