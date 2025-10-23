@@ -39,9 +39,9 @@ I focus on making reliability systematic — not reactive. Over 20 years, I've l
 
 **Consistent pattern of turning fragile systems into resilient infrastructure:**
 
-- ✅ **ConsenSys Staking platform ($2+ billion assets)** → Built zero-failure backend with institutional-grade safeguards
-- ✅ **E-commerce marketplace** → Migrated monolith to microservices at Southeast Asia's #1 platform, built backend services handling **16,000+ RPS**
-- ✅ **Regulated trading system** → Transformed chaotic operations into **99.99% uptime** platform while leading teams through complete system modernization
+- ✅ **ConsenSys Metamask Staking ($2+ billion assets)** → Helped build failureproof backend for MetaMask Staking and institutional validators, focusing on observability, latency reductions, and safe operations.
+- ✅ **Lazada (SEA e-commerce, Alibaba Group)** → Helped design and optimize a product-catalog microservice in Go serving **16k+ RPS per instance**; promoted Clean Architecture and TDD practices.
+- ✅ **Regulated trading system** → Transformed a fragile, monolithic trading system into an event-driven, **99.99%** uptime platform using DDD, CQRS, and Event Sourcing — establishing reliability standards adopted across the team.
 - ✅ **Distributed RNG protocol** → Pioneered on-chain random number generation using cryptographic protocol with `El-Gamal` encryption and `Tendermint` validators.
 
 <!--
@@ -58,7 +58,7 @@ I focus on making reliability systematic — not reactive. Over 20 years, I've l
 
 ---
 
-## 🧩 Open Source (Public)
+## 🧩 Open Source
 
 ### Ethereum Ecosystem Contributions
 
@@ -76,11 +76,21 @@ Integrated Tendermint Proof-of-Stake consensus into go-ethereum before Ethereum'
 
 ---
 
-## 🏢 Enterprise Systems (Proprietary)
+### 🏢 Enterprise Case Studies
 
 ### [Ethereum Staking at ConsenSys](https://consensys.io/staking)
 
 Built backend infrastructure for self-custodial Ethereum Staking powering MetaMask and institutional clients — **$2+ billion** in assets across **33,000+ validators**. [Documentation](https://docs.staking.consensys.io/staking-help) and [API reference](https://docs.staking.consensys.io/docs/staking-api).
+
+### [Lazada (Alibaba Group) — Southeast Asia’s leading E-commerce marketplace](https://www.lazada.com/en/)
+
+Contributed to migration of the product-catalog domain from a legacy PHP monolith to distributed Go microservices handling **16k+ RPS per instance** across six markets.
+Advocated Clean Architecture and TDD practices across teams, improving reliability and maintainability at scale.
+
+### [Competitive Auction House — Regulated Financial Platform](https://www.a-k-d.ru)
+
+Transformed a fragile, monolithic trading system into an event-driven, 99.99% uptime platform using **DDD, CQRS, and Event Sourcing**.
+Introduced CI/CD pipelines and structured on-call processes, establishing reliability standards for the engineering organization.
 
 ---
 
