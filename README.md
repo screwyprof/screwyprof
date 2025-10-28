@@ -1,6 +1,7 @@
 <!-- Maksim Shcherbo GitHub profile (screwyprof) -->
+<!-- Maksim Shcherbo github -->
 <!-- Summary: Principal Engineer specializing in clean architecture, quality, distributed systems, and blockchain infrastructure. -->
-# Maksim Shcherbo — Principal Engineer | Reliability Architect | Distributed Systems Expert
+# Maksim Shcherbo — Principal Engineer | Reliability Achitect
 
 *(Also known as [@screwyprof](https://github.com/screwyprof) on GitHub)*
 
@@ -23,7 +24,7 @@
 
 ### “I stop outages before they happen”
 
-> I design and lead the build of fault-tolerant systems that keep critical platforms online when everything else fails. With over two decades in finance, blockchain, and high-scale e-commerce, I help organizations eliminate fragility and protect revenue through resilient engineering.
+> I turn fragile architectures into resilient systems that protect revenue, reputation, and customer trust.
 
 ---
 
@@ -31,7 +32,7 @@
 
 > I eliminate the million-dollar risks that keep CTOs awake at 3 AM: system failures that lose revenue, infrastructure that can't scale, and teams that can't deliver reliably.
 
-I focus on making reliability systematic — not reactive. Over 20 years, I've led transformations that made financial, e-commerce, and blockchain platforms scale seamlessly and recover automatically, blending technical leadership with deep engineering discipline.
+I focus on making reliability systematic — not reactive. Over 15 years, I've led transformations that made financial, e-commerce, and blockchain platforms scale seamlessly and recover automatically, blending technical leadership with deep engineering discipline.
 
 ---
 
