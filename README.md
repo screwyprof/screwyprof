@@ -42,7 +42,7 @@ I focus on making reliability systematic — not reactive. Over 15 years, I've l
 
 - ✅ **ConsenSys Metamask Staking ($2+ billion assets)** → Helped build failureproof backend for MetaMask Staking and institutional validators, focusing on observability, latency reductions, and safe operations.
 - ✅ **Lazada (SEA e-commerce, Alibaba Group)** → Helped design and optimize a product-catalog microservice in Go serving **16k+ RPS per instance**; promoted Clean Architecture and TDD practices.
-- ✅ **Regulated trading system** → Transformed a fragile, monolithic trading system into an event-driven, **99.99%** uptime platform using DDD, CQRS, and Event Sourcing — establishing reliability standards adopted across the team.
+- ✅ **Regulated trading system** → Transformed a fragile, monolithic trading system into an event-driven, **99.9%** uptime platform using DDD, CQRS, and Event Sourcing — establishing reliability standards adopted across the team.
 - ✅ **Distributed RNG protocol** → Pioneered on-chain random number generation using cryptographic protocol with `El-Gamal` encryption and `Tendermint` validators.
 
 <!--
