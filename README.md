@@ -1,7 +1,7 @@
 <!-- Maksim Shcherbo GitHub profile (screwyprof) -->
 <!-- Maksim Shcherbo github -->
-<!-- Summary: Principal Engineer specializing in clean architecture, quality, distributed systems, and blockchain infrastructure. -->
-# Maksim Shcherbo — Principal Engineer | Reliability Achitect
+<!-- Summary: Software Engineer specializing in clean architecture, quality, distributed systems, and blockchain infrastructure. -->
+# Maksim Shcherbo — Software Engineer | Reliability Achitect
 
 *(Also known as [@screwyprof](https://github.com/screwyprof) on GitHub)*
 
