@@ -136,7 +136,7 @@ More to come — deep dives into scaling, process design, and the invisible laye
 
 ## 🎯 What I'm Looking For
 
-Exploring **Principal Sofware Engineer**, **Staff Software Engineer**, or **Engineering Manager** roles focused on architecture, reliability, and engineering excellence.
+Exploring **Principal Sofware Engineer**, **Staff Software Engineer**, or **Senior Software Engineer** roles focused on architecture, reliability, and engineering excellence.
 
 I guide teams through technical direction and process design — not management hierarchy — ensuring systems and practices meet the highest quality standards.
 
