@@ -371,7 +371,7 @@ These principles extend beyond staking — they apply to any financial or blockc
 
 ### About the Author
 
-I'm a Principal Software Engineer who specializes in designing fault-tolerant, high-stakes infrastructure — systems that move billions without breaking.  
+I'm a Software Engineer who specializes in designing fault-tolerant, high-stakes infrastructure — systems that move billions without breaking.  
 If you're building infrastructure that **must not fail**, I'd love to connect.
 
 - [LinkedIn](https://linkedin.com/in/maksim-shcherbo)  
