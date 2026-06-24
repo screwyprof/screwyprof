@@ -75,6 +75,12 @@ Solved fundamental scaling limitation preventing multi-client operations. Introd
 
 Integrated Tendermint Proof-of-Stake consensus into go-ethereum before Ethereum's PoS transition. Contributed to consensus engine architecture for decentralized risk markets with delegated PoS and 1-second block times.
 
+### Databases & Event Sourcing
+
+#### [KurrentDB Rust Client](https://github.com/kurrent-io/KurrentDB-Client-Rust)
+
+Diagnosed a **~40ms latency penalty on every gRPC call** in the official Rust client (formerly EventStoreDB), silently slowing every read, append, and subscription on low-latency networks. Root cause: the transport never enabled `TCP_NODELAY`, leaving Nagle's algorithm and TCP delayed `ACK` to stall each request behind a kernel timer. My **one-line fix** dropped the median read from **42ms to 311µs (~135x)** and was merged upstream. [Problem analysis](https://github.com/kurrent-io/KurrentDB-Client-Rust/issues/232), [solution](https://github.com/kurrent-io/KurrentDB-Client-Rust/pull/233), and [write-up](https://github.com/screwyprof/screwyprof/blob/main/articles/kurrentdb-rust-nagle.md).
+
 ---
 
 ### 🏢 Enterprise Case Studies
