@@ -128,9 +128,14 @@ More to come — deep dives into scaling, process design, and the invisible laye
 
 📘 **Articles**
 - [Building Financial Infrastructure That Must Not Fail](./articles/building-financial-infrastructure-that-must-not-fail.md)
+- [TCP_NODELAY: One Line, 135x Faster in KurrentDB's Rust Client](./articles/kurrentdb-rust-nagle.md)
+- [Why VS Code can't install extensions to a remote when your local ones are read-only](./articles/vscode-remote-readonly-extensions.md)
 
 💬 **Join the discussion on LinkedIn:**  
-[Building Infrastructure That Must Not Fail — LinkedIn Article](https://www.linkedin.com/pulse/building-infrastructure-must-fail-maksim-shcherbo-1d4se)
+- [Building Infrastructure That Must Not Fail — LinkedIn Article](https://www.linkedin.com/pulse/building-infrastructure-must-fail-maksim-shcherbo-1d4se)
+- [TCP_NODELAY: One Line, 135x Faster in KurrentDB's Rust Client](https://www.linkedin.com/posts/maksim-shcherbo_rust-grpc-eventsourcing-share-7475345091214258176-2qN1/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAZLrMgBWSO6wjIom8a2W-B_feNWl9J4h3c)
+- [Why VS Code can't install extensions to a remote when your local ones are read-only](https://www.linkedin.com/posts/maksim-shcherbo_softwareenginerring-vscode-nix-share-7474974533335101440-vH5q/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAZLrMgBWSO6wjIom8a2W-B_feNWl9J4h3c)
+
 
 ---
 
