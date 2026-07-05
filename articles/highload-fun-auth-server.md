@@ -1,6 +1,6 @@
 <!---
 title: "What Actually Moved the Score: A Rust Auth Server on highload.fun"
-description: "From a 9.198s first pass to a 5.750s record on highload.fun, and first place. Which changes actually moved the score (a TCP RST bug, write coalescing), why the usual suspects (locks, allocation, CPU) were already flat, and why io_uring was a dead end. A Rust HTTP server on a 2-core box under 10,000 connections."
+description: "From a 9.198s first pass to a 5.750s record on highload.fun and first place, at ~20ms average latency against the previous record's ~34ms (~87k req/s, 2 cores, 10,000 connections). What actually moved the score (a TCP RST bug, write coalescing), why the usual suspects (locks, allocation, CPU) were already flat, and why io_uring was a dead end."
 date: 2026-07-05
 category: performance
 --->
@@ -11,6 +11,8 @@ A [LinkedIn post](https://www.linkedin.com/pulse/auth-server-competition-back-ti
 [highload.fun](https://highload.fun) runs a brutal little benchmark: an HTTP auth server, shipped as a Docker image, hit with 500,000 requests across 10,000 concurrent connections on a 2-core, 2-GB container. Score is test duration plus one second per error, lower wins. Security counts as much as speed: the checker actively tries to break in. Every run uses a fresh, hidden dataset, so there is nothing to overfit.
 
 I took the server from a **9.198s** first correct run to **5.750s**, past the previously recorded leader at **5.964s**, and it has held first place since.
+
+**TL;DR.** The usual performance work (locks, allocations, CPU) was already flat and moved nothing. Every second I gained came from the network. The biggest single win was a TCP RST-on-close bug that truncated `GET /user` responses and was invisible on localhost, worth 37 seconds of score; the rest came from coalescing pipelined writes. The result was **5.750s** and first place, holding **~20ms** average latency against the previous record's **~34ms**. The one lever left below the syscall floor is io_uring, and the platform's seccomp blocks it.
 
 One honest note before the tuning. A laptop can generate load, but it cannot test a network. Over loopback there is no round-trip time and nothing is ever in flight, so the TCP-level bugs never appear; my only real network was the platform's benchmark harness, a black box I poked by pushing an image and reading the score back. Every change that moved the score lived there. Allocation, locking, and CPU I had kept tight from the first commit, so the network was the only bottleneck left.
 
