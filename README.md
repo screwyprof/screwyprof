@@ -133,16 +133,17 @@ Currently writing about reliability, architecture, and building systems that mus
 More to come — deep dives into scaling, process design, and the invisible layers of infrastructure.
 
 📘 **Articles**
-- [Building Financial Infrastructure That Must Not Fail](./articles/building-financial-infrastructure-that-must-not-fail.md)
 - [A Password Hash on Every API Call: The Bug That Restarted Our Validators Every Two Hours](./articles/lighthouse-web3signer-scrypt.md)
-- [TCP_NODELAY: One Line, 135x Faster in KurrentDB's Rust Client](./articles/kurrentdb-rust-nagle.md)
 - [What Actually Moved the Score: A Rust Auth Server on highload.fun](./articles/highload-fun-auth-server.md)
+- [TCP_NODELAY: One Line, 135x Faster in KurrentDB's Rust Client](./articles/kurrentdb-rust-nagle.md)
 - [Why VS Code can't install extensions to a remote when your local ones are read-only](./articles/vscode-remote-readonly-extensions.md)
+- [Building Financial Infrastructure That Must Not Fail](./articles/building-financial-infrastructure-that-must-not-fail.md)
 
-💬 **Join the discussion on LinkedIn:**  
-- [Building Infrastructure That Must Not Fail — LinkedIn Article](https://www.linkedin.com/pulse/building-infrastructure-must-fail-maksim-shcherbo-1d4se/)
+💬 **Join the discussion on LinkedIn:** 
+- [What Actually Moved the Score: A Rust Auth Server on highload.fun](https://www.linkedin.com/posts/maksim-shcherbo_rust-highload-performance-share-7479786319825600513-Z4W9/)
 - [TCP_NODELAY: One Line, 135x Faster in KurrentDB's Rust Client](https://www.linkedin.com/posts/maksim-shcherbo_rust-grpc-eventsourcing-share-7475345091214258176-2qN1/)
 - [Why VS Code can't install extensions to a remote when your local ones are read-only](https://www.linkedin.com/posts/maksim-shcherbo_softwareenginerring-vscode-nix-share-7474974533335101440-vH5q/)
+- [Building Infrastructure That Must Not Fail](https://www.linkedin.com/pulse/building-infrastructure-must-fail-maksim-shcherbo-1d4se/)
 
 ---
 
