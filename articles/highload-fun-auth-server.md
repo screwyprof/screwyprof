@@ -1,6 +1,6 @@
 <!---
 title: "What Actually Moved the Score: A Rust Auth Server on highload.fun"
-description: "From a 9.198s first pass to a 5.750s record on highload.fun and first place, at ~20ms average latency against the previous record's ~34ms (~87k req/s, 2 cores, 10,000 connections). What actually moved the score (a TCP RST bug, write coalescing), why the usual suspects (locks, allocation, CPU) were already flat, and why io_uring was a dead end."
+description: "From a 9.198s first pass to a 5.416s record on highload.fun, through a lead that changed hands more than once. The three wins that looked like the whole story (a TCP RST bug, write coalescing, buffer tuning) were all I/O, holding ~20ms latency against the previous record's ~34ms on 2 cores and 10,000 connections. Then a competitor beat it, and taking first back broke the thesis: the last win was not I/O or fewer syscalls but CPU cache locality, pinning each connection to one core so the kernel stops dragging socket state across the cache boundary. Why io_uring was a dead end, and why cache locality was the lever beneath it."
 date: 2026-07-05
 category: performance
 --->
@@ -10,9 +10,9 @@ A [LinkedIn post](https://www.linkedin.com/pulse/auth-server-competition-back-ti
 
 [highload.fun](https://highload.fun) runs a brutal little benchmark: an HTTP auth server, shipped as a Docker image, hit with 500,000 requests across 10,000 concurrent connections on a 2-core, 2-GB container. Score is test duration plus one second per error, lower wins. Security counts as much as speed: the checker actively tries to break in. Every run uses a fresh, hidden dataset, so there is nothing to overfit.
 
-I took the server from a **9.198s** first correct run to **5.750s**, past the previously recorded leader at **5.964s**, and it has held first place since.
+I took the server from a **9.198s** first correct run to **5.750s**, past the previously recorded leader at **5.964s**, and into first place. The same engineer came back and reclaimed the lead; I answered at **5.416s**. Getting there meant overturning the one lesson I was most sure of, and it is also where I decided to stop.
 
-**TL;DR.** The usual performance work (locks, allocations, CPU) was already flat and moved nothing. Every second I gained came from the network. The biggest single win was a TCP RST-on-close bug that truncated `GET /user` responses and was invisible on localhost, worth 37 seconds of score; the rest came from coalescing pipelined writes. The result was **5.750s** and first place, holding **~20ms** average latency against the previous record's **~34ms**. The one lever left below the syscall floor is io_uring, and the platform's seccomp blocks it.
+**TL;DR.** Locks, allocations, and CPU compute were flat from the first commit and moved nothing. The first three wins were all network: a TCP RST-on-close bug that truncated `GET /user` and was invisible on localhost (worth 37 seconds of score), then coalescing pipelined writes, then buffer tuning. That reached **5.750s** and first place, at ~20ms average latency against the previous record's ~34ms. Then a competitor beat it, and taking the lead back broke that thesis. At the epoll floor, with no syscalls left to cut, the last cost was CPU cache locality: on a work-stealing runtime a single connection's `recv` and `send` bounce between cores, and the kernel keeps dragging its socket state across the cache boundary. Pinning each connection to one core (thread-per-core plus flow-to-core affinity) stopped it and reached **5.416s**. io_uring was the lever I thought lived below the floor, and seccomp blocks it; cache locality was a second one, unblocked, and worth more.
 
 One honest note before the tuning. A laptop can generate load, but it cannot test a network. Over loopback there is no round-trip time and nothing is ever in flight, so the TCP-level bugs never appear; my only real network was the platform's benchmark harness, a black box I poked by pushing an image and reading the score back. Every change that moved the score lived there. Allocation, locking, and CPU I had kept tight from the first commit, so the network was the only bottleneck left.
 
@@ -98,7 +98,7 @@ The fix is structural: drain every buffered request in one pass, append each res
 
 The profile was clear about the floor. At two syscalls per request with send and receive as the whole cost, the only way lower is to stop making one syscall per operation, which means [io_uring](https://en.wikipedia.org/wiki/Io_uring): a completion model that batches many operations into a single `io_uring_enter`. So I built a version of the server on it. It was faster and correct. Then I deployed it, and every worker panicked instantly: `io_uring_setup` returned `EPERM`, and every one of the 500,000 requests failed. The production container's seccomp profile blocks the io_uring syscalls, which is Docker's default. io_uring is the one lever left below the epoll floor, and the platform forbids it.
 
-Back on the proven server, one small gain was left, the kind that does not touch syscalls at all: draining the read buffer with a cursor instead of an O(n²) shift per request, and a bigger response accumulator so even deep pipelines coalesce into one write. That took 5.807 to **5.750s**. Modest, but it was the record, and it has held since.
+Back on the proven server, one small gain was left, the kind that does not touch syscalls at all: draining the read buffer with a cursor instead of an O(n²) shift per request, and a bigger response accumulator so even deep pipelines coalesce into one write. That took 5.807 to **5.750s**. Modest, but it was the record. It held, for a while.
 
 ## Where the cost actually lived
 
@@ -110,10 +110,47 @@ On a workload like this, the cost lives in a predictable order, and most of it s
 
 The latency numbers followed from this too. Every endpoint sat at a uniform ~20ms, which by [Little's Law](https://en.wikipedia.org/wiki/Little%27s_law) is just in-flight concurrency divided by throughput (~1740 ÷ ~87k is about 20ms). There is no term for latency to attack on its own; the only way down is to raise throughput. When I did, the leader's ~34ms per endpoint became ~20ms for me, and connection setup fell to 0.573s against the leader's 0.794s.
 
+## The lead changes hands, and a floor I got wrong
+
+The record held, and then it did not. The engineer whose **5.964s** I had passed came back and reclaimed the lead, down to **5.460s**. I was second, and taking first back overturned the lesson I had just written down.
+
+The profile had not moved. Still the epoll floor: two syscalls per request, send and receive still about 98.6% of syscall time, nothing left to remove, and more tuning did nothing, exactly as before. If there were no syscalls left to cut, the lever could not be *fewer* syscalls. It had to be the same two, done without making the kernel do the work twice. I had written that io_uring was the one thing below the epoll floor. That was wrong. There was another lever down there, and unlike io_uring it was not blocked: where the socket's memory lives.
+
+Here is the work being done twice. `tokio` schedules with work-stealing, so either worker thread can pick up any connection's next unit of work. One connection's `recv` runs on core 1, its `send` on core 2, its next `recv` back on core 1. Every migration drags that connection's kernel socket state, the `tcp_sock`, its `sk_buff`s, the socket's cachelines, out of the other core's cache and across the core boundary. The network stack computes once, then chases its own memory across cores. On two cores under 10,000 connections that capped useful work at roughly 1.3 cores of the 2; the rest was cache-coherency traffic. That was the 66%-of-two-cores figure from a moment ago: not idle cores, cores busy fighting over the same cachelines.
+
+The fix is flow-to-core affinity: pin each connection's whole lifecycle, RX softirq, `recv`, `send`, ACK, to one core so nothing migrates. Three ingredients, all named syscalls:
+
+- `SO_REUSEPORT`: one listener socket per worker, and the kernel shards new connections across them.
+- `SO_INCOMING_CPU` on each listener: deliver a connection to the listener on the core its RX interrupt already landed on.
+- `sched_setaffinity` per worker: pin worker N's thread to core N.
+
+A connection that arrives on core 1 is accepted by the worker on core 1, and every byte in and out stays on core 1. Zero cross-core socket migration, both cores finally spending their time on real work, and throughput rose from the coalescing-era **~87k** to about **90k requests per second**, the platform ceiling. I confirmed the deployed image really was the affinity build, not a look-alike, by stracing its `setsockopt(SO_INCOMING_CPU)` calls. And none of it was guesswork about the topology: I had read the container's own cgroup and `/sys/class/net` files first, so the two cores and the single RX queue were measured facts, not assumptions.
+
+One correction worth making loudly, because it is the part people get wrong. To do this I dropped `tokio` from the hot path and wrote a bare `mio` epoll server. Dropping `tokio` did nothing by itself. A poor-man's profiler, `gdb` sampling the stack under load, put all of userspace, my code and the scheduler together, at about 1% of CPU. There was no runtime overhead to reclaim, and `tokio` was not slow. Its work-stealing policy was simply wrong for a kernel-network-bound workload on two cores, where a migrated connection costs more in cache misses than stealing ever saves in balance. That is a sharper claim than "async runtimes are slow," which this was not.
+
+None of it is novel. It is what nginx does with `reuseport` and `worker_cpu_affinity`, and what Seastar, the framework under ScyllaDB, is built on: shared-nothing, thread-per-core, a connection and its state living on one core for life. It is the idea the fast C++ network servers are built around, arrived at here from Rust.
+
+It only looks inevitable because everything next to it failed:
+
+| Tried | Result | Why it failed |
+| --- | --- | --- |
+| epoll thread-per-core, no affinity | 6.434s, regressed | `SO_REUSEPORT` sharded connections but did not align them to the core their RX interrupt landed on, so they still bounced |
+| pin everything to one core | 6.138s | +22% per-core throughput (81.5k on one core), but one core cannot carry the full send-plus-receive volume |
+| bigger read and accumulator buffers (32 KiB) | 5.932s, neutral | the production pipeline depth does not fill 32 KiB; it only made the working set colder |
+| `SO_SNDBUF` = 128K, for transmit batching | neutral | the cores idle waiting on the next request, on the receive side, not blocked on the send buffer |
+| `SO_BUSY_POLL` = 50µs | neutral | a single RX queue is one NAPI context, serialized; busy-poll cannot parallelize one queue |
+| self-configure RPS/RFS | writes denied | the container blocks `/sys` and `/proc/sys` writes |
+
+The through-line: on a single-RX-queue box you cannot buy throughput by making one core faster or one buffer bigger. The only win is aligning the flow to the core so the two cores stop fighting over the same cachelines. That took it to **5.416s**, and back to first.
+
+> The lesson I opened with was "it's always I/O; the CPU was never the constraint." The correction I paid for by losing the lead: CPU *compute* was never the constraint, CPU *memory locality* was. The last win came not from less work or fewer syscalls, but from stopping the kernel doing the same network work twice as each connection's cachelines ping-ponged between two cores.
+
 ## Where it landed
 
-The score walked down **9.198 → 7.406 → 6.572 → 5.807 → 5.750s**, zero errors, past a recorded leader at 5.964s. As of this writing, Sunday 5 July 2026, it still holds first place. The leaderboard never closes, so that will not last forever, but for now it is mine.
+The score walked down **9.198 → 7.406 → 6.572 → 5.807 → 5.750 → 5.473 → 5.416s**, zero errors throughout. As of this writing, in early July 2026, it holds first place, and I am leaving it there.
 
-The wins were specific to this platform: RST-on-close semantics and syscall coalescing, in a regime where the CPU was never the constraint. The method carries over even when the numbers do not: on a service like this, find your I/O cost before you touch anything else, and be wary of any optimization you can only measure on your own machine.
+That 5.416 is not a repeatable floor, and it is worth being exact about why. `eth0` has a single RX queue, so every request's receive-softirq work funnels through one queue, which caps the whole box at roughly 90k packets and therefore about 90k requests per second. That wall is the same for everyone, which is why the medians sit basically tied around 5.5s and the board is decided on best-of, not median. The container also runs on a shared host: the environment dump showed our two cores plus NET_RX softirq from other tenants on neighboring cores, so run-to-run variance is 100 to 190ms of shared-tenancy jitter I cannot control. Below that, one A/B run cannot separate a real gain from noise. The 5.416 was a favorable-variance run of a build that usually lands 5.50 to 5.54. Once the code is optimal, the only lever left is variance itself: re-run the winner until a lucky sample lands. That is playing the harness, not improving the server, and it is where the engineering stops paying, so it is where I stop.
+
+The method outlived its own thesis, which is the part I would keep. I started sure the story was I/O and that the CPU was never the constraint, and for three wins it was. The win that took the record back came from the opposite direction: not one syscall fewer, just the same two per request with the socket's memory staying on one core instead of chasing itself across two. Find your I/O cost first, distrust anything you can only measure on your own machine, and when the syscalls run out, look at where your memory lives.
 
 *(This was an entry in an open, always-on competition, so this post stays at the level of technique and lesson. The illustrative snippets are generic patterns, not the competition source.)*
