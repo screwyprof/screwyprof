@@ -134,6 +134,7 @@ More to come — deep dives into scaling, process design, and the invisible laye
 
 📘 **Articles**
 - [Building Financial Infrastructure That Must Not Fail](./articles/building-financial-infrastructure-that-must-not-fail.md)
+- [A Password Hash on Every API Call: The Bug That Restarted Our Validators Every Two Hours](./articles/lighthouse-web3signer-scrypt.md)
 - [TCP_NODELAY: One Line, 135x Faster in KurrentDB's Rust Client](./articles/kurrentdb-rust-nagle.md)
 - [What Actually Moved the Score: A Rust Auth Server on highload.fun](./articles/highload-fun-auth-server.md)
 - [Why VS Code can't install extensions to a remote when your local ones are read-only](./articles/vscode-remote-readonly-extensions.md)
