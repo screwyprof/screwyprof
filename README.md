@@ -1,11 +1,11 @@
 <!-- Maksim Shcherbo GitHub profile (screwyprof) -->
 <!-- Maksim Shcherbo github -->
-<!-- Summary: Software Engineer specializing in clean architecture, quality, distributed systems, and blockchain infrastructure. -->
-# Maksim Shcherbo — Software Engineer | Reliability Achitect
+<!-- Summary: Software Engineer specializing in backend & distributed systems, reliability, clean architecture, and Ethereum infrastructure. -->
+# Maksim Shcherbo — Software Engineer · Backend & Distributed Systems
 
 *(Also known as [@screwyprof](https://github.com/screwyprof) on GitHub)*
 
-**Specialties:** distributed systems, reliability engineering, system scalability, blockchain infrastructure, and fault-tolerant architecture.
+**Specialties:** backend & distributed systems, reliability engineering, scalability, Ethereum infrastructure, and fault-tolerant architecture.
 
 ---
 
@@ -32,30 +32,7 @@
 
 > I eliminate the million-dollar risks that keep CTOs awake at 3 AM: system failures that lose revenue, infrastructure that can't scale, and teams that can't deliver reliably.
 
-I focus on making reliability systematic — not reactive. Over 15 years, I've led transformations that made financial, e-commerce, and blockchain platforms scale seamlessly and recover automatically, blending technical leadership with deep engineering discipline.
-
----
-
-## 📈 Key Transformations
-
-**Consistent pattern of turning fragile systems into resilient infrastructure:**
-
-- ✅ **ConsenSys Metamask Staking ($2+ billion assets)** → Helped build failureproof backend for MetaMask Staking and institutional validators, focusing on observability, latency reductions, and safe operations.
-- ✅ **Lazada (SEA e-commerce, Alibaba Group)** → Helped design and optimize a product-catalog microservice in Go serving **16k+ RPS per instance**; promoted Clean Architecture and TDD practices.
-- ✅ **Regulated trading system** → Transformed a fragile, monolithic trading system into an event-driven, **99.9%** uptime platform using DDD, CQRS, and Event Sourcing — establishing reliability standards adopted across the team.
-- ✅ **Distributed RNG protocol** → Pioneered on-chain random number generation using cryptographic protocol with `El-Gamal` encryption and `Tendermint` validators.
-
-<!--
-<details open>
-<summary>📊 Key metrics summary</summary>
-
-| Area | Metric | Description |
-|-------|---------|-------------|
-| Reliability | 99.99% uptime | Transformed chaotic system to HA platform |
-| Scale | 16,000+ RPS | Designed backend services at major e-commerce platform |
-| Assets | $2+ billion | Safeguarded assets on ConsenSys staking backend |
-</details>
--->
+I make reliability systematic — not reactive. I've turned fragile financial, e-commerce, and blockchain backends into systems that scale seamlessly and recover automatically — pairing deep engineering discipline with clean, simple design.
 
 ---
 
@@ -83,7 +60,7 @@ Diagnosed a **~40ms latency penalty on every gRPC call** in the official Rust cl
 
 ---
 
-### 🏢 Enterprise Case Studies
+## 💼 Experience & Case Studies
 
 ### [Ethereum Staking at ConsenSys](https://consensys.io/staking)
 
@@ -91,13 +68,17 @@ Built backend infrastructure for self-custodial Ethereum Staking powering MetaMa
 
 ### [Lazada (Alibaba Group) — Southeast Asia’s leading E-commerce marketplace](https://www.lazada.com/en/)
 
-Contributed to migration of the product-catalog domain from a legacy PHP monolith to distributed Go microservices handling **16k+ RPS per instance** across six markets.
+Migrated the product-catalog domain from a legacy PHP monolith to distributed Go microservices handling **16k+ RPS per instance** across six markets.
 Advocated Clean Architecture and TDD practices across teams, improving reliability and maintainability at scale.
 
 ### [Competitive Auction House — Regulated Financial Platform](https://www.a-k-d.ru)
 
-Transformed a fragile, monolithic trading system into an event-driven, 99.99% uptime platform using **DDD, CQRS, and Event Sourcing**.
+Transformed a fragile, monolithic trading system into an event-driven, **99.9%** uptime platform using **DDD, CQRS, and Event Sourcing**.
 Introduced CI/CD pipelines and structured on-call processes, establishing reliability standards for the engineering organization.
+
+### Distributed Randomness (R&D, DAO.Casino)
+
+Pioneered on-chain random number generation — a cryptographic protocol using `El-Gamal` encryption and `Tendermint` validators.
 
 ---
 
@@ -149,9 +130,9 @@ More to come — deep dives into scaling, process design, and the invisible laye
 
 ## 🎯 What I'm Looking For
 
-Exploring **Principal Sofware Engineer**, **Staff Software Engineer**, or **Senior Software Engineer** roles focused on architecture, reliability, and engineering excellence.
+Open to **Senior+ / Staff / Principal** backend & distributed-systems roles — focused on reliability, architecture, and scale. **Remote-only**, hands-on IC, **no people management**.
 
-I guide teams through technical direction and process design — not management hierarchy — ensuring systems and practices meet the highest quality standards.
+I set technical direction through standards, RFCs/ADRs, and quality gates — as a hands-on engineer, not a manager — so systems and practices meet a high bar by default.
 
 My passion is building infrastructure that must not fail and cultivating the engineering discipline that makes that possible.  
 
@@ -183,4 +164,4 @@ Let's discuss how I can help transform your critical systems into reliable, scal
   <a href="https://www.docker.com"><img alt="Docker" src="https://img.shields.io/badge/Docker-1E293B?style=flat-square&logo=docker&logoColor=white&labelColor=1E293B"></a>
 </p>
 
-<!-- SEO keywords: Golang, Rust, Ethereum, Reliability Engineering, Distributed Systems, Blockchain, DDD, CQRS, AWS, Kubernetes, Docker, CI/CD, PostgreSQL, gRPC, OpenAPI, REST, Scalability, System Architecture, Technical Leadership, Principal Sofware Engineer, Staff Software Engineer, Senior Sofware Engineer -->
+<!-- SEO keywords: Backend Engineer, Distributed Systems, Go, Golang, Rust, Ethereum, Reliability Engineering, Blockchain, DDD, CQRS, Event Sourcing, AWS, Kubernetes, Docker, CI/CD, PostgreSQL, gRPC, OpenAPI, REST, Scalability, System Architecture, Principal Software Engineer, Staff Software Engineer, Senior Software Engineer -->
