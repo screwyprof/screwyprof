@@ -22,7 +22,7 @@ Backend & distributed-systems engineer building high-scale, fault-tolerant syste
 
 ---
 
-### “I stop outages before they happen”
+### “I build infrastructure that must not fail — and stop outages before they happen.”
 
 > I turn fragile architectures into resilient systems that protect revenue, reputation, and customer trust.
 
