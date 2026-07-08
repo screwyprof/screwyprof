@@ -3,9 +3,9 @@
 <!-- Summary: Software Engineer specializing in backend & distributed systems, reliability, clean architecture, and Ethereum infrastructure. -->
 # Maksim Shcherbo — Software Engineer · Backend & Distributed Systems
 
-*(Also known as [@screwyprof](https://github.com/screwyprof) on GitHub)*
+Backend & distributed-systems engineer building high-scale, fault-tolerant systems in **Go** and **Rust** — reliability, scalability, and Ethereum staking infrastructure.
 
-**Specialties:** backend & distributed systems, reliability engineering, scalability, Ethereum infrastructure, and fault-tolerant architecture.
+*(also known as [@screwyprof](https://github.com/screwyprof))*
 
 ---
 
