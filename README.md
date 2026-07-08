@@ -64,7 +64,7 @@ Diagnosed a **~40ms latency penalty on every gRPC call** in the official Rust cl
 
 ### [Ethereum Staking at ConsenSys](https://consensys.io/staking)
 
-Built backend infrastructure for self-custodial Ethereum Staking powering MetaMask and institutional clients — **$2+ billion** in assets across **33,000+ validators**. [Documentation](https://docs.staking.consensys.io/staking-help) and [API reference](https://docs.staking.consensys.io/docs/staking-api).
+Built backend infrastructure for self-custodial Ethereum Staking powering MetaMask and institutional clients — **$2+ billion** in assets across **33,000+ validators**. [Documentation](https://docs.staking.consensys.io/staking-help) and [API reference](https://docs.staking.consensys.io/docs/staking-api). Deep dive: [Building Financial Infrastructure That Must Not Fail](./articles/building-financial-infrastructure-that-must-not-fail.md).
 
 ### [Lazada (Alibaba Group) — Southeast Asia’s leading E-commerce marketplace](https://www.lazada.com/en/)
 
