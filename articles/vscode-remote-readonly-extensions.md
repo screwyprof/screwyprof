@@ -1,14 +1,15 @@
 <!---
 title: "Why VS Code can't install extensions to a remote when your local ones are read-only"
+seoTitle: "Why VS Code can't install extensions to a read-only remote"
 description: >-
-  A read-only (Nix-managed) local extensions directory causes VS Code Remote extension installs to fail with
+  A read-only (Nix-managed) local extensions directory makes VS Code Remote installs fail with
   EntryWriteLocked. Why it happens, and how to work around it.
 date: 2026-06-23
-category: tools
-related: [vscode, nix]
+tags: [tooling]
 --->
-
 # Why VS Code can't install extensions to a remote when your local ones are read-only
+
+> 📍 **Canonical version: [happygopher.nl/writing/vscode-remote-readonly-extensions](https://happygopher.nl/writing/vscode-remote-readonly-extensions/).** This copy is kept for existing links.
 
 If your local VS Code extensions directory is read-only (common with Nix-managed setups) and you work over
 VS Code Remote (Remote-SSH, WSL, Dev Containers, Codespaces), installing an extension onto the remote fails
@@ -69,8 +70,12 @@ after a write returns EACCES:
 
 ```ts
 const { stat } = await SymlinkSupport.stat(this.toFilePath(resource));
-if (!(stat.mode & 0o200 /* writable by owner */)) {
-    writeError = createFileSystemProviderError(error, FileSystemProviderErrorCode.FileWriteLocked);
+// 0o200 = writable by owner
+if (!(stat.mode & 0o200)) {
+  writeError = createFileSystemProviderError(
+    error,
+    FileSystemProviderErrorCode.FileWriteLocked,
+  );
 }
 ```
 
@@ -84,7 +89,8 @@ downloading a fresh one. It zips your local files and sends the VSIX to the remo
 ([`extensionsWorkbenchService.installInServer`][src-iis]):
 
 ```ts
-const vsix = await this.extensionManagementService.zip(local);  // local = your read-only 0444 copy
+// local = your read-only 0444 copy
+const vsix = await this.extensionManagementService.zip(local);
 return await server.extensionManagementService.install(vsix);
 ```
 
@@ -92,13 +98,13 @@ return await server.extensionManagementService.install(vsix);
 ([`modeFromEntry`][src-zipmode] in `zip.ts`). Nothing in between makes the files writable:
 
 ```ts
-// modeFromEntry(entry) derives the file mode from the zip entry:
-const attr = entry.externalFileAttributes >> 16 || 33188;  // 0o100644 fallback, used only when the
-                                                           // entry carries no stored mode
-// ...masks attr down and returns it. Your entry stores 0444, so it returns 0o444.
+// modeFromEntry(entry) derives the file mode from the zip entry. 0o100644
+// is only a fallback for when the entry carries no stored mode; it then
+// masks attr down and returns it — your entry stores 0444, so it's 0o444.
+const attr = entry.externalFileAttributes >> 16 || 33188;
 
-// the caller writes the file with exactly that mode:
-const mode = modeFromEntry(entry);                         // 0o444
+// the caller writes the file with exactly that mode (0o444):
+const mode = modeFromEntry(entry);
 istream = createWriteStream(targetFileName, { mode });
 ```
 
@@ -122,7 +128,7 @@ The failure requires VS Code to reuse your local read-only copy. When the instal
 marketplace download instead, the files are 0644 and it succeeds:
 
 | extension you install | have it locally? | path taken                            | result         |
-|-----------------------|------------------|---------------------------------------|----------------|
+| --------------------- | ---------------- | ------------------------------------- | -------------- |
 | already installed     | yes (read-only)  | zips and ships the 0444 copy          | fails (remote) |
 | not installed         | no               | fresh download from the marketplace   | works          |
 | a UI-kind extension   | n/a              | installs into the local read-only dir | fails (local)  |
@@ -162,7 +168,8 @@ preserving 0444… modify package.json fails." Status: open, Backlog, labelled `
 attempt, [PR #242256][pr], added the missing write bits when the VSIX is created:
 
 ```ts
-mode: stat.mode | 0o220,  // OR-in user+group write
+// OR-in user+group write
+mode: stat.mode | 0o220,
 ```
 
 It was closed without merging ("still under discussion… closing this PR until then"), so it will not resolve
@@ -175,13 +182,13 @@ the copied files come out writable.
 
 ## Solutions
 
-| approach | reliable? | keeps the read-only directory? | cost |
-|---|---|---|---|
-| reactive `chmod` watcher (inotify/poll) | no, races the metadata write | yes | a background service, and unreliable |
-| `bindfs` presenting the remote server dir as writable | yes | yes | a maintained FUSE mount |
-| `CAP_DAC_OVERRIDE` on the server's `node` | yes | yes | broad capability, re-apply per server version |
-| make the local extensions directory writable | yes, removes the 0444 source | no | gives up reproducibility and hardening |
-| `code --install-extension` from the integrated terminal | yes, forces a fresh download | yes | one line per extension |
+| approach                                                | reliable?                    | keeps the read-only directory? | cost                                          |
+| ------------------------------------------------------- | ---------------------------- | ------------------------------ | --------------------------------------------- |
+| reactive `chmod` watcher (inotify/poll)                 | no, races the metadata write | yes                            | a background service, and unreliable          |
+| `bindfs` presenting the remote server dir as writable   | yes                          | yes                            | a maintained FUSE mount                       |
+| `CAP_DAC_OVERRIDE` on the server's `node`               | yes                          | yes                            | broad capability, re-apply per server version |
+| make the local extensions directory writable            | yes, removes the 0444 source | no                             | gives up reproducibility and hardening        |
+| `code --install-extension` from the integrated terminal | yes, forces a fresh download | yes                            | one line per extension                        |
 
 The reactive watcher is unreliable. The chmod must land between each file's creation and the metadata write,
 and it loses that race for any extension with more than a few files: a small one installs, a larger one does

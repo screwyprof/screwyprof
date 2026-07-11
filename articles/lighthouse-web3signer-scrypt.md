@@ -1,13 +1,17 @@
 <!---
-title: "A Password Hash on Every API Call: The Bug That Restarted Our Validators Every Two Hours"
-description: "On ConsenSys's Ethereum staking infrastructure, updating validators through Lighthouse restarted the pods every two hours. The cost was scrypt, a deliberately slow password hash, running on every update for validators that had no local keys to decrypt. A twenty-line guard, merged into Lighthouse v4.1.0."
+title: 'A Password Hash on Every API Call: The Bug That Restarted Our Validators Every Two Hours'
+seoTitle: 'A Password Hash on Every API Call Restarted Our Validators'
+description: 'Updating validators via Lighthouse restarted our pods every two hours. The cause: scrypt hashing on every update. A 20-line guard, merged upstream in v4.1.0.'
 date: 2026-07-06
-category: debugging
+tags: [debugging, performance, ethereum]
 related:
+  - building-financial-infrastructure-that-must-not-fail
   - kurrentdb-rust-nagle
   - highload-fun-auth-server
 --->
 # A Password Hash on Every API Call: The Bug That Restarted Our Validators Every Two Hours
+
+> 📍 **Canonical version: [happygopher.nl/writing/lighthouse-web3signer-scrypt](https://happygopher.nl/writing/lighthouse-web3signer-scrypt/).** This copy is kept for existing links.
 
 On ConsenSys's Ethereum staking infrastructure, a Lighthouse upgrade kept failing pre-production testing: the validator clients restarted roughly **every two hours**. Lighthouse is the Ethereum consensus client, and its validator client is the process that keeps validators signing and earning. The trigger was a batch job that toggled builder proposals by sending one `PATCH /lighthouse/validators/{pubkey}` per validator. Under that load the process spiked CPU, stopped answering its `/metrics` liveness probe inside the five-second timeout, and Kubernetes restarted the pod. With thousands of keys the restarts were relentless, and the upgrade stayed blocked from production.
 
@@ -50,7 +54,7 @@ let mut key_cache = if has_local_definitions {
 };
 ```
 
-The same guard wraps the two other places that touched the cache. For a pure remote-signer node the whole `scrypt` path is skipped, which is what everyone had assumed it already did. Twenty-odd lines, one file. Another operator on the thread had already suspected it was costing them missed attestations. It merged into `v4.1.0`, and the maintainer's review was the nicest kind of anticlimax: *"Fantastic, thank you for doing the work to dig into this!"*
+The same guard wraps the two other places that touched the cache. For a pure remote-signer node the whole `scrypt` path is skipped, which is what everyone had assumed it already did. Twenty-odd lines, one file. Another operator on the thread had already suspected it was costing them missed attestations. It merged into `v4.1.0`, and the maintainer's review was the nicest kind of anticlimax: _"Fantastic, thank you for doing the work to dig into this!"_
 
 ## What it took
 

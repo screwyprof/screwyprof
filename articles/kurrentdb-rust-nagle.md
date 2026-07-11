@@ -1,12 +1,13 @@
 <!---
 title: "TCP_NODELAY: One Line, 135x Faster in KurrentDB's Rust Client"
-description: "A read against a local KurrentDB took 40ms while the database itself answered in ~1ms. The missing piece was a single socket option. Turning on TCP_NODELAY made the client 135x faster."
+description: 'A read from a local KurrentDB took 40ms while the database answered in ~1ms. The fix was one socket option: TCP_NODELAY made the client 135x faster.'
 date: 2026-06-24
-category: debugging
-related:
-  - []
+tags: [performance, debugging, rust]
+related: []
 --->
 # TCP_NODELAY: One Line, 135x Faster in KurrentDB's Rust Client
+
+> 📍 **Canonical version: [happygopher.nl/writing/kurrentdb-rust-nagle](https://happygopher.nl/writing/kurrentdb-rust-nagle/).** This copy is kept for existing links.
 
 I have a small Rust service backed by an in-memory KurrentDB, all on localhost. No disk, no network, and still it felt slower than it had any right to be. The access log gave it away: almost every response for one endpoint came back around 40ms, the same figure on every call, no matter what I asked for. An in-memory store on loopback has no business being that slow, or that consistent about it. So I started pulling the thread.
 
@@ -14,7 +15,7 @@ I have a small Rust service backed by an in-memory KurrentDB, all on localhost. 
 
 ## 1. The symptom is a suspiciously round number
 
-The first clue is how *round* the number is. Real work is jagged, shifting with payload, cache, and load, and it rarely lands on the same value twice. A latency pinned to one round figure points to a timer somewhere in the path.
+The first clue is how _round_ the number is. Real work is jagged, shifting with payload, cache, and load, and it rarely lands on the same value twice. A latency pinned to one round figure points to a timer somewhere in the path.
 
 KurrentDB also exposes a plain HTTP API, so I ran the same lookup over it. It answered in ~1ms: same node, same data, a fortieth of what my gRPC client was seeing. The database was doing its job in a millisecond. The other 39 were overhead in the client path, getting the question there and the answer back over loopback.
 
@@ -28,12 +29,12 @@ let stream = format!("bench-worksheet-{}", Uuid::new_v4());
 bencher.bench(|| rt.block_on(async { store.load(&stream).await }));
 ```
 
-| Configuration | Median | Fastest |
-| --- | --- | --- |
-| Before (Nagle on) | 42ms | 40ms |
-| After (`TCP_NODELAY` on) | 311µs | 225µs |
+| Configuration            | Median | Fastest |
+| ------------------------ | ------ | ------- |
+| Before (Nagle on)        | 42ms   | 40ms    |
+| After (`TCP_NODELAY` on) | 311µs  | 225µs   |
 
-*Setup: a single-node KurrentDB (`kurrentplatform/kurrentdb:26.1.0`, in-memory, insecure) in a local dev container on Apple Silicon, reached over plaintext gRPC through the official Rust SDK (the `kurrentdb` crate, 1.x, built with Rust 1.96). Timings come from [divan](https://github.com/nvzqz/divan); the ~1ms baseline is the same node answering over its AtomPub HTTP endpoint. Client and server share the container's Linux network, so the ~40ms below is Linux's delayed-ACK default.*
+_Setup: a single-node KurrentDB (`kurrentplatform/kurrentdb:26.1.0`, in-memory, insecure) in a local dev container on Apple Silicon, reached over plaintext gRPC through the official Rust SDK (the `kurrentdb` crate, 1.x, built with Rust 1.96). Timings come from [divan](https://github.com/nvzqz/divan); the ~1ms baseline is the same node answering over its AtomPub HTTP endpoint. Client and server share the container's Linux network, so the ~40ms below is Linux's delayed-ACK default._
 
 Look at the "fastest" column, not the median. Even at its best, the old path couldn't get under 40ms. That hard floor is the fingerprint of a fixed timer. Turn the option on and it disappears: about 135x on the median.
 
@@ -53,7 +54,7 @@ Now watch the two meet on a request/response protocol like gRPC. The client send
 
 It needs the right setup to bite. A lone request that fits one segment, with nothing unacknowledged, slips through. The trap is the multi-write pattern gRPC inherits from HTTP/2 (headers in one write, data in the next): the trailing write waits on an ACK that delayed ACK is busy postponing.
 
-Nagle himself put it best: *"The combination of the two is awful."*
+Nagle himself put it best: _"The combination of the two is awful."_
 
 Why is this loudest on localhost? Over a real network, round-trip latency keeps data moving in both directions, the stall conditions rarely line up, and the symptom hides. On loopback, with sub-millisecond round trips, nothing masks the timer. The faster your setup, the more obvious the bug. Marc Brooker's post ["It's always TCP_NODELAY. Every damn time."](https://brooker.co.za/blog/2024/05/09/nagle.html) makes the same case: on modern hardware the overhead Nagle was built to fight is long gone, so for anything latency-sensitive, turn `TCP_NODELAY` on and don't think twice.
 
@@ -66,7 +67,8 @@ So here's the whole fix, in `kurrentdb/src/grpc.rs`:
 ```rust
 let mut http = HttpConnector::new();
 http.enforce_http(false);
-http.set_nodelay(true); // gRPC sends small, latency-sensitive frames; don't let Nagle batch them
+// gRPC sends small, latency-sensitive frames; don't let Nagle batch them
+http.set_nodelay(true);
 ```
 
 That last line, [`grpc.rs:899`](https://github.com/kurrent-io/KurrentDB-Client-Rust/blob/d76e58ba464b2dc77c196ffefbca330ce9df938d/kurrentdb/src/grpc.rs#L899), is the entire change (pinned to the merge commit).

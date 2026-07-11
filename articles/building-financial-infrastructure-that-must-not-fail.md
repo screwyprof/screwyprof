@@ -1,14 +1,15 @@
-<!--
----
-title: "Building Infrastructure That Must Not Fail"
-author: "Maksim Shcherbo"
-description: "Senior engineer sharing lessons from building Ethereum staking infrastructure that must not fail — reliability, testing, and quality at scale."
-tags: [Reliability, Blockchain, Ethereum, Infrastructure, Software Engineering]
-canonical_url: "https://www.linkedin.com/pulse/building-infrastructure-must-fail-maksim-shcherbo-1d4se"
----
--->
-
+<!---
+title: 'Building Financial Infrastructure That Must Not Fail'
+author: 'Maksim Shcherbo'
+description: 'Senior engineer sharing lessons from building Ethereum staking infrastructure that must not fail — reliability, testing, and quality at scale.'
+tags: [reliability, architecture, distributed-systems]
+related: [lighthouse-web3signer-scrypt]
+date: 2025-10-21
+draft: false
+--->
 # Building Financial Infrastructure That Must Not Fail
+
+> 📍 **Canonical version: [happygopher.nl/writing/building-financial-infrastructure-that-must-not-fail](https://happygopher.nl/writing/building-financial-infrastructure-that-must-not-fail/).** This copy is kept for existing links.
 
 > I build financial and blockchain infrastructure that **must not fail** — identifying and preventing the catastrophic patterns that cause million-dollar losses, and creating the missing capabilities institutional operators need.
 
@@ -113,7 +114,7 @@ What matters is capturing who did what, when, and why - with enough context to r
   "trace_id": "f47ac10b-58cc-4372",
   "timestamp": "2023-11-15T10:32:41.837Z",
   "user_id": "7842",
-  "action": "bid.submit", 
+  "action": "bid.submit",
   "resource": "auction:nuclear-reactor-parts-Q4",
   "amount": 10500000,
   "currency": "USD",
@@ -133,7 +134,7 @@ On `Ethereum`, each validator requires exactly **32 ETH** locked to participate 
 
 Based on publicly available information from [ConsenSys](https://consensys.io) and [ConsenSys Staking](https://consensys.io/staking):
 
-```ascii-art
+```text
 ┌────────────────────────────────────────────────────────────────────┐
 │              CONSENSYS STAKING AT INSTITUTIONAL SCALE              │
 │                 (Public metrics from consensys.io)                 │
@@ -187,13 +188,15 @@ Returns: Deposit contract payload
 ```json
 {
   "eth1_contract_address": "0x00000000219ab540356cBB839Cbe05303d7705Fa",
-  "stakes": [{
-    "pubkey": "0x93247...",
-    "withdrawal_credentials": "0x010000...",
-    "amount": "32000000000",
-    "signature": "0x1b66ac...",
-    "deposit_root": "0xdef456..."
-  }]
+  "stakes": [
+    {
+      "pubkey": "0x93247...",
+      "withdrawal_credentials": "0x010000...",
+      "amount": "32000000000",
+      "signature": "0x1b66ac...",
+      "deposit_root": "0xdef456..."
+    }
+  ]
 }
 ```
 
@@ -267,7 +270,7 @@ With protocol-level understanding of `Ethereum` from years of study, I can recog
 
 The API inputs and outputs aren't arbitrary - they're `Ethereum` protocol data structures:
 
-```ascii-art
+```text
 ┌────────────────────────────────────────────────────────────────────┐
 │              ConsenSys Staking API → Ethereum Staking              │
 ├────────────────────────────────────────────────────────────────────┤
@@ -295,7 +298,7 @@ The API returns a [Signed](https://github.com/ethereum/consensus-specs/blob/dev/
 
 ## Improving Ethereum Ecosystem Tools
 
-```ascii-art
+```text
 ┌──────────────────────────────────────────────────────────────────┐
 │                      ETHEREUM STAKING TOOLS                      │
 ├──────────────────────────────────────────────────────────────────┤
@@ -345,7 +348,8 @@ At institutional scale, [a major operator found a fundamental limitation](https:
 
 Imagine if a restaurant's ordering system forced the kitchen to use the same suppliers for every table. Some tables want only organic ingredients, others insist on local sources, but the system can't track preferences per table. The workaround? Run entirely separate kitchens - vastly more complex than simply noting "table 5 wants organic."
 
-<img alt="MEV-Boost before - multiple instances needed" src="https://user-images.githubusercontent.com/1536274/220412386-d13661e3-81b4-4e3d-ae0a-99a505d045ad.png" height="250"/>
+<!-- Recreated as an Excalidraw diagram (src/assets/diagrams/mev-boost-before.excalidraw); original: https://user-images.githubusercontent.com/1536274/220412386-d13661e3-81b4-4e3d-ae0a-99a505d045ad.png (flashbots/mev-boost#455) -->
+<img alt="MEV-Boost before - multiple instances needed" src="/img/mev-boost-before.webp" width="561" height="250"/>
 
 #### How I Solved It
 
@@ -355,7 +359,8 @@ A workaround? Run separate consensus clients (like `Lighthouse`) each with its o
 
 I first proposed the solution in [issue #455](https://github.com/flashbots/mev-boost/issues/455), outlining how per-validator relay configuration could work:
 
-<img alt="MEV-Boost after - single instance with per-validator config" src="https://user-images.githubusercontent.com/1536274/220412381-2e71c192-ef20-4c04-8beb-4a3f8e1fa7d9.png" height="250"/>
+<!-- Recreated as an Excalidraw diagram (src/assets/diagrams/mev-boost-after.excalidraw); original: https://user-images.githubusercontent.com/1536274/220412381-2e71c192-ef20-4c04-8beb-4a3f8e1fa7d9.png (flashbots/mev-boost#455) -->
+<img alt="MEV-Boost after - single instance with per-validator config" src="/img/mev-boost-after.webp" width="561" height="250"/>
 
 After months of discussion and refinement, I implemented the [complete solution](https://github.com/flashbots/mev-boost/pull/470/files). The architecture centers on two components: a `Relay Configuration Manager (RCM)` that holds validator-relay mappings, and a pluggable `Relay Configuration Provider (RCP)` that loads configs from files or APIs. Configuration updates happen without service restarts (using lock-free atomics for safety), and the optimized implementation achieved **26%** latency improvement.
 
@@ -363,16 +368,6 @@ After [months of collaboration](https://github.com/flashbots/mev-boost/issues/45
 
 ## Proven at Scale
 
-Preventing failures before they cost millions, recognizing what breaks at institutional scale, and building what's missing when it matters - this is how I approach every system. The code is publicly verifiable. The expertise is proven. 
+Preventing failures before they cost millions, recognizing what breaks at institutional scale, and building what's missing when it matters - this is how I approach every system. The code is publicly verifiable. The expertise is proven.
 
 These principles extend beyond staking — they apply to any financial or blockchain system where failure means real loss.
-
----
-
-### About the Author
-
-I'm a Software Engineer who specializes in designing fault-tolerant, high-stakes infrastructure — systems that move billions without breaking.  
-If you're building infrastructure that **must not fail**, I'd love to connect.
-
-- [LinkedIn](https://linkedin.com/in/maksim-shcherbo)  
-- [GitHub](https://github.com/screwyprof)

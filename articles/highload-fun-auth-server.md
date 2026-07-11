@@ -1,10 +1,12 @@
 <!---
-title: "What Actually Moved the Score: A Rust Auth Server on highload.fun"
-description: "From a 9.198s first pass to a 5.416s record on highload.fun, through a lead that changed hands more than once. The three wins that looked like the whole story (a TCP RST bug, write coalescing, buffer tuning) were all I/O, holding ~20ms latency against the previous record's ~34ms on 2 cores and 10,000 connections. Then a competitor beat it, and taking first back broke the thesis: the last win was not I/O or fewer syscalls but CPU cache locality, pinning each connection to one core so the kernel stops dragging socket state across the cache boundary. Why io_uring was a dead end, and why cache locality was the lever beneath it."
+title: 'What Actually Moved the Score: A Rust Auth Server on highload.fun'
+description: 'A Rust auth server on highload.fun, from 9.198s to a 5.416s record. The wins looked like I/O — but the real lever turned out to be CPU cache locality.'
 date: 2026-07-05
-category: performance
+tags: [performance, rust]
 --->
 # What Actually Moved the Score: A Rust Auth Server on highload.fun
+
+> 📍 **Canonical version: [happygopher.nl/writing/highload-fun-auth-server](https://happygopher.nl/writing/highload-fun-auth-server/).** This copy is kept for existing links.
 
 A [LinkedIn post](https://www.linkedin.com/pulse/auth-server-competition-back-time-never-ends-sergey-svistunov-jswze/) from [Sergey Svistunov](https://www.linkedin.com/in/sergey-svistunov/) crossed my feed, announcing that his [Auth Server Competition on highload.fun was back, permanent and always-on](https://highload.fun/challenges/server/authserver/overview). I know him from `Lazada`, where he worked on low-level performance for a platform under real traffic. He is one of the few people I have met who say "high load" and mean it, not the rehearsed version you get in a systems-design interview. I do not usually do challenges like this one, but this came from him, and the pitch was good: optimize a whole HTTP service under real load, not a tight inner loop. So I took a look.
 
@@ -32,7 +34,7 @@ And a deliberate call on JSON: on the hot path, JSON is not your friend. But the
 
 With a correct 9.198s server, the next phase was the loop every optimization story is actually made of: benchmark, profile, change one thing, measure. On the `hyper`-based server that meant the usual tuning: HTTP/1.1 pipeline flush, vectored writes, dropping the date header and its per-response timer, a two-thread runtime, keeping the hot path allocation-free, `mimalloc` as the global allocator, and `TCP_NODELAY` on every connection.
 
-That last one I already knew well. Some time ago [Nagle's algorithm](https://en.wikipedia.org/wiki/Nagle%27s_algorithm) cost me 40ms per call on the *client* side of a different system, because its gRPC transport never set `TCP_NODELAY` ([I wrote that one up here](https://github.com/screwyprof/screwyprof/blob/main/articles/kurrentdb-rust-nagle.md)). On the server it is the same lesson from the other end: leave Nagle on and the kernel batches your own small responses to save packets, trading latency for bandwidth nobody asked for. Or as Marc Brooker titled his own account of it, ["It's always TCP_NODELAY. Every damn time."](https://brooker.co.za/blog/2024/05/09/nagle.html)
+That last one I already knew well. Some time ago [Nagle's algorithm](https://en.wikipedia.org/wiki/Nagle%27s_algorithm) cost me 40ms per call on the _client_ side of a different system, because its gRPC transport never set `TCP_NODELAY` ([I wrote that one up here](https://github.com/screwyprof/screwyprof/blob/main/articles/kurrentdb-rust-nagle.md)). On the server it is the same lesson from the other end: leave Nagle on and the kernel batches your own small responses to save packets, trading latency for bandwidth nobody asked for. Or as Marc Brooker titled his own account of it, ["It's always TCP_NODELAY. Every damn time."](https://brooker.co.za/blog/2024/05/09/nagle.html)
 
 Each push shaved off a little less than the last, and around 7.4s they stopped helping at all: more tuning, same score. (One detour, a thread-per-core runtime, I tried and reverted; it did not help on this workload.)
 
@@ -74,7 +76,7 @@ async fn lingering_close(sock: &mut TcpStream) {
 }
 ```
 
-This is roughly what `hyper` does internally, which is why `hyper` had zero errors. Two parts were easy to get wrong. A bare `shutdown()` is not enough: closing with unread receive data resets the connection regardless of a prior half-close, so you need the FIN *and* the drain. And a naive drain is worse than the disease: my first attempt read and discarded before closing, ate pipelined requests the client was still waiting on, and produced a different truncation. That version got reverted. The FIN has to come first.
+This is roughly what `hyper` does internally, which is why `hyper` had zero errors. Two parts were easy to get wrong. A bare `shutdown()` is not enough: closing with unread receive data resets the connection regardless of a prior half-close, so you need the FIN _and_ the drain. And a naive drain is worse than the disease: my first attempt read and discarded before closing, ate pipelined requests the client was still waiting on, and produced a different truncation. That version got reverted. The FIN has to come first.
 
 It landed in two deploys. The first cut errors from 51 to 37; the residual 37 were the drain timing out under 2-CPU scheduling starvation, so I gave it more headroom and widened the parser's read limits to match what `hyper` accepts. That took 37 to 0.
 
@@ -114,7 +116,7 @@ The latency numbers followed from this too. Every endpoint sat at a uniform ~20m
 
 The record held, and then it did not. The engineer whose **5.964s** I had passed came back and reclaimed the lead, down to **5.460s**. I was second, and taking first back overturned the lesson I had just written down.
 
-The profile had not moved. Still the epoll floor: two syscalls per request, send and receive still about 98.6% of syscall time, nothing left to remove, and more tuning did nothing, exactly as before. If there were no syscalls left to cut, the lever could not be *fewer* syscalls. It had to be the same two, done without making the kernel do the work twice. I had written that io_uring was the one thing below the epoll floor. That was wrong. There was another lever down there, and unlike io_uring it was not blocked: where the socket's memory lives.
+The profile had not moved. Still the epoll floor: two syscalls per request, send and receive still about 98.6% of syscall time, nothing left to remove, and more tuning did nothing, exactly as before. If there were no syscalls left to cut, the lever could not be _fewer_ syscalls. It had to be the same two, done without making the kernel do the work twice. I had written that io_uring was the one thing below the epoll floor. That was wrong. There was another lever down there, and unlike io_uring it was not blocked: where the socket's memory lives.
 
 Here is the work being done twice. `tokio` schedules with work-stealing, so either worker thread can pick up any connection's next unit of work. One connection's `recv` runs on core 1, its `send` on core 2, its next `recv` back on core 1. Every migration drags that connection's kernel socket state, the `tcp_sock`, its `sk_buff`s, the socket's cachelines, out of the other core's cache and across the core boundary. The network stack computes once, then chases its own memory across cores. On two cores under 10,000 connections that capped useful work at roughly 1.3 cores of the 2; the rest was cache-coherency traffic. That was the 66%-of-two-cores figure from a moment ago: not idle cores, cores busy fighting over the same cachelines.
 
@@ -132,18 +134,18 @@ None of it is novel. It is what nginx does with `reuseport` and `worker_cpu_affi
 
 It only looks inevitable because everything next to it failed:
 
-| Tried | Result | Why it failed |
-| --- | --- | --- |
-| epoll thread-per-core, no affinity | 6.434s, regressed | `SO_REUSEPORT` sharded connections but did not align them to the core their RX interrupt landed on, so they still bounced |
-| pin everything to one core | 6.138s | +22% per-core throughput (81.5k on one core), but one core cannot carry the full send-plus-receive volume |
-| bigger read and accumulator buffers (32 KiB) | 5.932s, neutral | the production pipeline depth does not fill 32 KiB; it only made the working set colder |
-| `SO_SNDBUF` = 128K, for transmit batching | neutral | the cores idle waiting on the next request, on the receive side, not blocked on the send buffer |
-| `SO_BUSY_POLL` = 50µs | neutral | a single RX queue is one NAPI context, serialized; busy-poll cannot parallelize one queue |
-| self-configure RPS/RFS | writes denied | the container blocks `/sys` and `/proc/sys` writes |
+| Tried                                        | Result            | Why it failed                                                                                                             |
+| -------------------------------------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| epoll thread-per-core, no affinity           | 6.434s, regressed | `SO_REUSEPORT` sharded connections but did not align them to the core their RX interrupt landed on, so they still bounced |
+| pin everything to one core                   | 6.138s            | +22% per-core throughput (81.5k on one core), but one core cannot carry the full send-plus-receive volume                 |
+| bigger read and accumulator buffers (32 KiB) | 5.932s, neutral   | the production pipeline depth does not fill 32 KiB; it only made the working set colder                                   |
+| `SO_SNDBUF` = 128K, for transmit batching    | neutral           | the cores idle waiting on the next request, on the receive side, not blocked on the send buffer                           |
+| `SO_BUSY_POLL` = 50µs                        | neutral           | a single RX queue is one NAPI context, serialized; busy-poll cannot parallelize one queue                                 |
+| self-configure RPS/RFS                       | writes denied     | the container blocks `/sys` and `/proc/sys` writes                                                                        |
 
 The through-line: on a single-RX-queue box you cannot buy throughput by making one core faster or one buffer bigger. The only win is aligning the flow to the core so the two cores stop fighting over the same cachelines. That took it to **5.416s**, and back to first.
 
-> The lesson I opened with was "it's always I/O; the CPU was never the constraint." The correction I paid for by losing the lead: CPU *compute* was never the constraint, CPU *memory locality* was. The last win came not from less work or fewer syscalls, but from stopping the kernel doing the same network work twice as each connection's cachelines ping-ponged between two cores.
+> The lesson I opened with was "it's always I/O; the CPU was never the constraint." The correction I paid for by losing the lead: CPU _compute_ was never the constraint, CPU _memory locality_ was. The last win came not from less work or fewer syscalls, but from stopping the kernel doing the same network work twice as each connection's cachelines ping-ponged between two cores.
 
 ## Where it landed
 
@@ -153,4 +155,4 @@ That 5.416 is not a repeatable floor, and it is worth being exact about why. `et
 
 The method outlived its own thesis, which is the part I would keep. I started sure the story was I/O and that the CPU was never the constraint, and for three wins it was. The win that took the record back came from the opposite direction: not one syscall fewer, just the same two per request with the socket's memory staying on one core instead of chasing itself across two. Find your I/O cost first, distrust anything you can only measure on your own machine, and when the syscalls run out, look at where your memory lives.
 
-*(This was an entry in an open, always-on competition, so this post stays at the level of technique and lesson. The illustrative snippets are generic patterns, not the competition source.)*
+_(This was an entry in an open, always-on competition, so this post stays at the level of technique and lesson. The illustrative snippets are generic patterns, not the competition source.)_
