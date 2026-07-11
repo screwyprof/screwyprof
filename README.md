@@ -1,167 +1,127 @@
-<!-- Maksim Shcherbo GitHub profile (screwyprof) -->
-<!-- Maksim Shcherbo github -->
-<!-- Summary: Software Engineer specializing in backend & distributed systems, reliability, clean architecture, and Ethereum infrastructure. -->
-# Maksim Shcherbo — Software Engineer · Backend & Distributed Systems
+# Maksim Shcherbo — Backend & Distributed Systems Engineer
 
-Backend & distributed-systems engineer building high-scale, fault-tolerant systems in **Go** and **Rust** — reliability, scalability, and Ethereum staking infrastructure.
+**I build infrastructure that must not fail — and stop outages before they happen.**
 
-*(also known as [@screwyprof](https://github.com/screwyprof))*
+Software Engineer | Backend & Distributed Systems · Reliability · Scalability · Go · Rust · Ethereum
+
+🌐 **[happygopher.nl](https://happygopher.nl)** · 📄 **[Résumé](https://happygopher.nl/resume)** · ✍️ **[Writing](https://happygopher.nl/writing)** · *(also known as [@screwyprof](https://github.com/screwyprof))*
 
 ---
 
 [![Go](https://img.shields.io/badge/Go-00ADD8?style=flat-square&logo=go&logoColor=white)](https://go.dev)
 [![Rust](https://img.shields.io/badge/Rust-D34516?style=flat-square&logo=rust&logoColor=white)](https://www.rust-lang.org)
-[![AWS](https://img.shields.io/badge/Cloud-AWS-FF9900?style=flat-square&logo=amazon-aws&logoColor=white)](https://aws.amazon.com)
 [![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=flat-square&logo=kubernetes&logoColor=white)](https://kubernetes.io)
 [![Docker](https://img.shields.io/badge/Docker-257bd6?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com)
 [![gRPC](https://img.shields.io/badge/gRPC-protocol-blue?style=flat-square&logo=grpc)](https://grpc.io)
 [![OpenTelemetry](https://img.shields.io/badge/OpenTelemetry-blue?style=flat-square&logo=opentelemetry)](https://opentelemetry.io/)
 [![OpenAPI](https://img.shields.io/badge/OpenAPI-6BA539?style=flat-square&logo=openapiinitiative&logoColor=white)](https://www.openapis.org)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=flat-square&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![AWS](https://img.shields.io/badge/Cloud-AWS-FF9900?style=flat-square&logo=amazon-aws&logoColor=white)](https://aws.amazon.com)
 [![Ethereum](https://img.shields.io/badge/Ethereum-3C3C3D?style=flat-square&logo=ethereum&logoColor=white)](https://ethereum.org)
 
 ---
 
-### “I build infrastructure that must not fail — and stop outages before they happen.”
+> I build **high-load, fault-tolerant** backends in **Go** and **Rust**, and ship fixes upstream into the open-source infrastructure they run on. **Every claim below is backed by a merged PR, a public case study, or a number you can check.**
 
-> I turn fragile architectures into resilient systems that protect revenue, reputation, and customer trust.
+## About
 
----
-
-## 🧠 About Me
-
-> I eliminate the million-dollar risks that keep CTOs awake at 3 AM: system failures that lose revenue, infrastructure that can't scale, and teams that can't deliver reliably.
-
-I make reliability systematic — not reactive. I've turned fragile financial, e-commerce, and blockchain backends into systems that scale seamlessly and recover automatically — pairing deep engineering discipline with clean, simple design.
+I make reliability systematic, not reactive. Over ~13 years I've taken fragile financial, e-commerce, and blockchain backends and made them scale predictably and recover on their own — pairing deep engineering discipline with simple, legible design. I set technical direction as a hands-on IC: standards, RFCs/ADRs, and CI gates, not headcount.
 
 ---
 
-## 🧩 Open Source
+## 🧩 Open-source contributions
 
-### Ethereum Ecosystem Contributions
+Public and independently verifiable — issue numbers, merged PRs, measured impact.
 
-#### [Lighthouse Consensus Client](https://github.com/sigp/lighthouse)
+#### [KurrentDB Rust client](https://github.com/kurrent-io/KurrentDB-Client-Rust) — 42 ms → 311 µs (~135×)
 
-Resolved critical `OOM` failures causing validator restarts **every 2 hours**, blocking institutional upgrades. Root cause analysis revealed architectural flaw in validator management code - `O(n)` decryption of all keys for single-validator updates. I **transformed O(n) to O(1)** behavior, boosting attestation success rates to **~99%** and unblocking scale operations for tier-1 staking providers. [Problem analysis](https://github.com/sigp/lighthouse/issues/4936) and [solution](https://github.com/sigp/lighthouse/pull/4126).
+Every gRPC call in the official Rust client (formerly EventStoreDB) paid a **~40 ms latency penalty**, silently slowing every read, append, and subscription on low-latency networks. Root cause: the transport never enabled `TCP_NODELAY`, so Nagle's algorithm and TCP delayed `ACK` stalled each request behind a kernel timer. My **one-line fix** dropped the median read from **42 ms to 311 µs (~135×)** and was merged upstream. [Issue #232](https://github.com/kurrent-io/KurrentDB-Client-Rust/issues/232), [PR #233](https://github.com/kurrent-io/KurrentDB-Client-Rust/pull/233), and the [write-up](https://happygopher.nl/writing/kurrentdb-rust-nagle/).
 
-#### [MEV-Boost](https://github.com/flashbots/mev-boost)
+#### [Lighthouse consensus client](https://github.com/sigp/lighthouse) — O(n) → O(1), restarts eliminated
 
-Solved fundamental scaling limitation preventing multi-client operations. Introduced **per-validator relay architecture**, delivering **~26% latency improvement** with `OpenTelemetry` instrumentation. [Proposal](https://github.com/flashbots/mev-boost/issues/455) and [solution](https://github.com/flashbots/mev-boost/pull/470).
+Validator updates re-decrypted **every** keystore on **every** call — an `O(n)` scrypt password-hash that restarted validators every **~2 hours** and blocked institutional upgrades. I made the path `O(1)` (skip decryption when there are no local keys); upgrades resumed at **99.9% attestation**, unblocking tier-1 staking providers. [Issue #4936](https://github.com/sigp/lighthouse/issues/4936), [PR #4126](https://github.com/sigp/lighthouse/pull/4126), and the [write-up](https://happygopher.nl/writing/lighthouse-web3signer-scrypt/).
 
-#### [Autonity Consensus Layer](https://github.com/autonity/autonity)
+#### [MEV-Boost](https://github.com/flashbots/mev-boost) — ~26% lower proposal-path latency
 
-Integrated Tendermint Proof-of-Stake consensus into go-ethereum before Ethereum's PoS transition. Contributed to consensus engine architecture for decentralized risk markets with delegated PoS and 1-second block times.
+Introduced a **per-validator relay architecture** — relays configurable per validator, hot-reloadable via an atomic lock-free swap, with concurrent relay querying and the `OpenTelemetry` instrumentation it originally lacked. **~26% lower proposal-path latency.** [Issue #455](https://github.com/flashbots/mev-boost/issues/455), [PR #470](https://github.com/flashbots/mev-boost/pull/470).
 
-### Databases & Event Sourcing
+#### [Autonity](https://github.com/autonity/autonity) — BFT proof-of-stake on go-ethereum
 
-#### [KurrentDB Rust Client](https://github.com/kurrent-io/KurrentDB-Client-Rust)
-
-Diagnosed a **~40ms latency penalty on every gRPC call** in the official Rust client (formerly EventStoreDB), silently slowing every read, append, and subscription on low-latency networks. Root cause: the transport never enabled `TCP_NODELAY`, leaving Nagle's algorithm and TCP delayed `ACK` to stall each request behind a kernel timer. My **one-line fix** dropped the median read from **42ms to 311µs (~135x)** and was merged upstream. [Problem analysis](https://github.com/kurrent-io/KurrentDB-Client-Rust/issues/232), [solution](https://github.com/kurrent-io/KurrentDB-Client-Rust/pull/233), and [write-up](https://github.com/screwyprof/screwyprof/blob/main/articles/kurrentdb-rust-nagle.md).
+Patched go-ethereum to run a Tendermint-style BFT consensus layer with delegated PoS and 1-second blocks — a working prototype **before Ethereum's Merge**.
 
 ---
 
-## 💼 Experience & Case Studies
+## 💼 Selected experience
 
-### [Ethereum Staking at ConsenSys](https://consensys.io/staking)
+Full history, with metrics and context, lives on **[happygopher.nl/resume](https://happygopher.nl/resume)**.
 
-Built backend infrastructure for self-custodial Ethereum Staking powering MetaMask and institutional clients — **$2+ billion** in assets across **33,000+ validators**. [Documentation](https://docs.staking.consensys.io/staking-help) and [API reference](https://docs.staking.consensys.io/docs/staking-api). Deep dive: [Building Financial Infrastructure That Must Not Fail](./articles/building-financial-infrastructure-that-must-not-fail.md).
+#### [ConsenSys](https://consensys.io/staking) — MetaMask Staking backend · $2B+ staked, 33k+ validators
 
-### [Lazada (Alibaba Group) — Southeast Asia’s leading E-commerce marketplace](https://www.lazada.com/en/)
+Built the multi-tenant staking backend behind MetaMask and institutional clients from the ground up. Correctness-first API: row-level-security isolation, idempotent writes, a checkpointed state machine, and end-to-end audit trails — no duplicate side-effects, safe resume after partial failures. Established SDLC practice as an IC — OpenTelemetry-by-default, RFC-first features, ADRs, CI gates — adopted across my team and picked up by adjacent ones. Deep dive: [Building Financial Infrastructure That Must Not Fail](https://happygopher.nl/writing/building-financial-infrastructure-that-must-not-fail/).
 
-Migrated the product-catalog domain from a legacy PHP monolith to distributed Go microservices handling **16k+ RPS per instance** across six markets.
-Advocated Clean Architecture and TDD practices across teams, improving reliability and maintainability at scale.
+#### [Lazada (Alibaba Group)](https://www.lazada.com/en/) — product-catalog backend · 16k+ RPS
 
-### [Competitive Auction House — Regulated Financial Platform](https://www.a-k-d.ru)
+Migrated the product-catalog domain from a legacy PHP monolith to distributed Go microservices — **16k+ RPS/instance, p95 <100 ms, 99.9%** through 11.11 / 12.12 mega-sale surges across six markets. CQRS read/write split over sharded MySQL; advocated Clean Architecture and TDD across teams.
 
-Transformed a fragile, monolithic trading system into an event-driven, **99.9%** uptime platform using **DDD, CQRS, and Event Sourcing**.
-Introduced CI/CD pipelines and structured on-call processes, establishing reliability standards for the engineering organization.
+#### Auction & Tender House — regulated e-procurement · 99.9% uptime
 
-### Distributed Randomness (R&D, DAO.Casino)
+Rebuilt a fragile monolithic trading platform into an event-driven system with **DDD, CQRS, and Event Sourcing** — critical paths from **minutes to milliseconds**, deterministic verifiable records, **FSB/FSTEK-audited**, DDoS-hardened. Introduced CI/CD pipelines and structured on-call, setting the org's reliability standards.
 
-Pioneered on-chain random number generation — a cryptographic protocol using `El-Gamal` encryption and `Tendermint` validators.
+#### Distributed randomness (R&D) — DAO.Casino
 
----
-
-## 💎 Notable Projects
-
-*Personal projects and experiments showcasing systematic approaches to reliability, architecture, and testing patterns.*
-
-### [delegator](https://github.com/screwyprof/delegator)
-
-High-performance Tezos delegation service with CQRS architecture achieving **15s** full sync of **760k+** delegations and **<1ms** API responses. Demonstrates reliability patterns with **92% test coverage**.
-
-### [payment](https://github.com/screwyprof/payment)
-
-Complete `DDD/CQRS/Clean Architecture` implementation preventing costly financial errors. Features event-sourced aggregates, invariant enforcement, and full test coverage.
-
-### [favkit](https://github.com/screwyprof/favkit)
-
-Rust CLI tool for managing Finder favorites on macOS with ADR-based architectural reasoning and nix reproducibility.
-
-### [cqrs](https://github.com/screwyprof/cqrs)
-
-Event-sourced CQRS library featuring Given/When/Then DSL for business-readable domain specifications — a rare pattern in Go.
-
-### [form3api](https://github.com/screwyprof/form3api)
-
-Form3 API client with GitHub-style HATEOAS pagination and executable documentation as acceptance tests.
+Pioneered verifiable, unbiasable on-chain randomness — a threshold-BLS random beacon built into Tendermint consensus, delivered end-to-end (patched Tendermint, a Cosmos SDK app, and a Go DKG library).
 
 ---
 
-## 🎤 Writing & Talks
+## 💎 Notable projects
 
-Currently writing about reliability, architecture, and building systems that must not fail.  
-More to come — deep dives into scaling, process design, and the invisible layers of infrastructure.
+*Personal projects showcasing systematic approaches to reliability, architecture, and testing.*
 
-📘 **Articles**
-- [A Password Hash on Every API Call: The Bug That Restarted Our Validators Every Two Hours](./articles/lighthouse-web3signer-scrypt.md)
-- [What Actually Moved the Score: A Rust Auth Server on highload.fun](./articles/highload-fun-auth-server.md)
-- [TCP_NODELAY: One Line, 135x Faster in KurrentDB's Rust Client](./articles/kurrentdb-rust-nagle.md)
-- [Why VS Code can't install extensions to a remote when your local ones are read-only](./articles/vscode-remote-readonly-extensions.md)
-- [Building Financial Infrastructure That Must Not Fail](./articles/building-financial-infrastructure-that-must-not-fail.md)
+- **[payment](https://github.com/screwyprof/payment)** — a complete `DDD / CQRS / Clean Architecture` implementation: event-sourced aggregates, invariant enforcement, full test coverage.
+- **[cqrs](https://github.com/screwyprof/cqrs)** — event-sourced CQRS library with a Given/When/Then DSL for business-readable domain specs — a rare pattern in Go.
+- **[form3api](https://github.com/screwyprof/form3api)** — Form3 API client with GitHub-style HATEOAS pagination and executable documentation as acceptance tests.
+- **[delegator](https://github.com/screwyprof/delegator)** — high-performance Tezos delegation service (CQRS): **15 s** full sync of **760k+** delegations, **<1 ms** API responses, 92% coverage.
+- **[favkit](https://github.com/screwyprof/favkit)** — Rust CLI for macOS Finder favorites, with ADR-based architectural reasoning and Nix reproducibility.
 
-💬 **Join the discussion on LinkedIn:** 
-- [What Actually Moved the Score: A Rust Auth Server on highload.fun](https://www.linkedin.com/posts/maksim-shcherbo_rust-highload-performance-share-7479786319825600513-Z4W9/)
-- [TCP_NODELAY: One Line, 135x Faster in KurrentDB's Rust Client](https://www.linkedin.com/posts/maksim-shcherbo_rust-grpc-eventsourcing-share-7475345091214258176-2qN1/)
-- [Why VS Code can't install extensions to a remote when your local ones are read-only](https://www.linkedin.com/posts/maksim-shcherbo_softwareenginerring-vscode-nix-share-7474974533335101440-vH5q/)
+---
+
+## ✍️ Writing
+
+Full archive — with build-time code highlighting — on **[happygopher.nl/writing](https://happygopher.nl/writing)**.
+
+- [TCP_NODELAY: One Line, 135x Faster in KurrentDB's Rust Client](https://happygopher.nl/writing/kurrentdb-rust-nagle/)
+- [A Password Hash on Every API Call: The Bug That Restarted Our Validators Every Two Hours](https://happygopher.nl/writing/lighthouse-web3signer-scrypt/)
+- [What Actually Moved the Score: A Rust Auth Server on highload.fun](https://happygopher.nl/writing/highload-fun-auth-server/)
+- [Why VS Code can't install extensions to a remote when your local ones are read-only](https://happygopher.nl/writing/vscode-remote-readonly-extensions/)
+- [Building Financial Infrastructure That Must Not Fail](https://happygopher.nl/writing/building-financial-infrastructure-that-must-not-fail/)
+
+**Discussion on LinkedIn:**
+- [A Rust Auth Server on highload.fun](https://www.linkedin.com/posts/maksim-shcherbo_rust-highload-performance-share-7479786319825600513-Z4W9/)
+- [135x Faster in KurrentDB's Rust Client](https://www.linkedin.com/posts/maksim-shcherbo_rust-grpc-eventsourcing-share-7475345091214258176-2qN1/)
+- [VS Code remote extensions with read-only locals](https://www.linkedin.com/posts/maksim-shcherbo_softwareenginerring-vscode-nix-share-7474974533335101440-vH5q/)
 - [Building Infrastructure That Must Not Fail](https://www.linkedin.com/pulse/building-infrastructure-must-fail-maksim-shcherbo-1d4se/)
 
 ---
 
-## 🎯 What I'm Looking For
+## 🎯 What I'm looking for
 
-Open to **Senior+ / Staff / Principal** backend & distributed-systems roles — focused on reliability, architecture, and scale. **Remote-only**, hands-on IC, **no people management**.
+Open to **Senior / Staff / Principal** backend & distributed-systems roles — reliability, architecture, and scale. **Remote-only**, hands-on IC, **no people management**.
 
-I set technical direction through standards, RFCs/ADRs, and quality gates — as a hands-on engineer, not a manager — so systems and practices meet a high bar by default.
-
-My passion is building infrastructure that must not fail and cultivating the engineering discipline that makes that possible.  
-
-If you're scaling critical systems or modernizing legacy infrastructure, I'd love to discuss how I can help.
+I keep complex business domains safe to change and easy to reason about, and raise the engineering bar by proof, not mandate.
 
 ---
 
 ## 📫 Contact
 
-<a href="https://linkedin.com/in/maksim-shcherbo"><img src="https://custom-icon-badges.demolab.com/badge/LinkedIn-0A66C2?style=flat-square&logo=linkedin-white&logoColor=fff" alt="LinkedIn profile"></a> <a href="mailto:max@happygopher.nl"><img src="https://img.shields.io/badge/Email-D14836?style=flat-square&logo=gmail&logoColor=white" alt="Email"></a>
-
-Let's discuss how I can help transform your critical systems into reliable, scalable infrastructure.
-
+<a href="https://linkedin.com/in/maksim-shcherbo"><img src="https://custom-icon-badges.demolab.com/badge/LinkedIn-0A66C2?style=flat-square&logo=linkedin-white&logoColor=fff" alt="LinkedIn profile"></a> <a href="mailto:max@happygopher.nl"><img src="https://img.shields.io/badge/Email-D14836?style=flat-square&logo=gmail&logoColor=white" alt="Email"></a> <a href="https://happygopher.nl"><img src="https://img.shields.io/badge/Site-happygopher.nl-1E293B?style=flat-square&logo=astro&logoColor=white" alt="happygopher.nl"></a>
 
 ---
-
-<!--
-<p align="center">
-  <img src="https://komarev.com/ghpvc/?username=screwyprof&color=gray" alt="Profile views">
-</p>
--->
 
 <p align="center">
   <a href="https://go.dev"><img alt="Go" src="https://img.shields.io/badge/Go-1E293B?style=flat-square&logo=go&logoColor=white&labelColor=1E293B"></a>
   <a href="https://www.rust-lang.org/"><img alt="Rust" src="https://img.shields.io/badge/Rust-1E293B?style=flat-square&logo=rust&logoColor=white&labelColor=1E293B"></a>
-  <a href="https://ethereum.org"><img alt="Ethereum" src="https://img.shields.io/badge/Ethereum-1E293B?style=flat-square&logo=ethereum&logoColor=white&labelColor=1E293B"></a>
   <a href="https://aws.amazon.com"><img alt="AWS" src="https://img.shields.io/badge/Cloud-Amazon_AWS-1E293B?style=flat-square&logo=amazon-aws&logoColor=white&labelColor=1E293B"></a>
   <a href="https://kubernetes.io"><img alt="Kubernetes" src="https://img.shields.io/badge/Kubernetes-1E293B?style=flat-square&logo=kubernetes&logoColor=white&labelColor=1E293B"></a>
   <a href="https://www.docker.com"><img alt="Docker" src="https://img.shields.io/badge/Docker-1E293B?style=flat-square&logo=docker&logoColor=white&labelColor=1E293B"></a>
+  <a href="https://ethereum.org"><img alt="Ethereum" src="https://img.shields.io/badge/Ethereum-1E293B?style=flat-square&logo=ethereum&logoColor=white&labelColor=1E293B"></a>
 </p>
-
-<!-- SEO keywords: Backend Engineer, Distributed Systems, Go, Golang, Rust, Ethereum, Reliability Engineering, Blockchain, DDD, CQRS, Event Sourcing, AWS, Kubernetes, Docker, CI/CD, PostgreSQL, gRPC, OpenAPI, REST, Scalability, System Architecture, Principal Software Engineer, Staff Software Engineer, Senior Software Engineer -->
