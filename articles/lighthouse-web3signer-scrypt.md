@@ -4,6 +4,7 @@ seoTitle: 'A Password Hash on Every API Call Restarted Our Validators'
 description: 'Updating validators via Lighthouse restarted our pods every two hours. The cause: scrypt hashing on every update. A 20-line guard, merged upstream in v4.1.0.'
 date: 2026-07-06
 tags: [debugging, performance, ethereum]
+linkedin: 'https://www.linkedin.com/posts/maksim-shcherbo_reliability-ethereum-rust-share-7480964307736973312-z_ME/'
 related:
   - building-financial-infrastructure-that-must-not-fail
   - kurrentdb-rust-nagle

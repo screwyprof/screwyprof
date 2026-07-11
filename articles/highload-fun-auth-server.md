@@ -3,6 +3,7 @@ title: 'What Actually Moved the Score: A Rust Auth Server on highload.fun'
 description: 'A Rust auth server on highload.fun, from 9.198s to a 5.416s record. The wins looked like I/O — but the real lever turned out to be CPU cache locality.'
 date: 2026-07-05
 tags: [performance, rust]
+linkedin: 'https://www.linkedin.com/posts/maksim-shcherbo_rust-highload-performance-share-7479786319825600513-Z4W9/'
 --->
 # What Actually Moved the Score: A Rust Auth Server on highload.fun
 

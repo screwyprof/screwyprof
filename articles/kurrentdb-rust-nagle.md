@@ -4,6 +4,7 @@ description: 'A read from a local KurrentDB took 40ms while the database answere
 date: 2026-06-24
 tags: [performance, debugging, rust]
 related: []
+linkedin: 'https://www.linkedin.com/posts/maksim-shcherbo_rust-grpc-eventsourcing-share-7475345091214258176-2qN1/'
 --->
 # TCP_NODELAY: One Line, 135x Faster in KurrentDB's Rust Client
 

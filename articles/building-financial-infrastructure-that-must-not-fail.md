@@ -4,6 +4,7 @@ author: 'Maksim Shcherbo'
 description: 'Senior engineer sharing lessons from building Ethereum staking infrastructure that must not fail — reliability, testing, and quality at scale.'
 tags: [reliability, architecture, distributed-systems]
 related: [lighthouse-web3signer-scrypt]
+linkedin: 'https://www.linkedin.com/pulse/building-infrastructure-must-fail-maksim-shcherbo-1d4se/'
 date: 2025-10-21
 draft: false
 --->
@@ -349,7 +350,7 @@ At institutional scale, [a major operator found a fundamental limitation](https:
 Imagine if a restaurant's ordering system forced the kitchen to use the same suppliers for every table. Some tables want only organic ingredients, others insist on local sources, but the system can't track preferences per table. The workaround? Run entirely separate kitchens - vastly more complex than simply noting "table 5 wants organic."
 
 <!-- Recreated as an Excalidraw diagram (src/assets/diagrams/mev-boost-before.excalidraw); original: https://user-images.githubusercontent.com/1536274/220412386-d13661e3-81b4-4e3d-ae0a-99a505d045ad.png (flashbots/mev-boost#455) -->
-<img alt="MEV-Boost before - multiple instances needed" src="/img/mev-boost-before.webp" width="561" height="250"/>
+<img alt="MEV-Boost before - multiple instances needed" src="https://happygopher.nl/img/mev-boost-before.webp" width="561" height="250"/>
 
 #### How I Solved It
 
@@ -360,7 +361,7 @@ A workaround? Run separate consensus clients (like `Lighthouse`) each with its o
 I first proposed the solution in [issue #455](https://github.com/flashbots/mev-boost/issues/455), outlining how per-validator relay configuration could work:
 
 <!-- Recreated as an Excalidraw diagram (src/assets/diagrams/mev-boost-after.excalidraw); original: https://user-images.githubusercontent.com/1536274/220412381-2e71c192-ef20-4c04-8beb-4a3f8e1fa7d9.png (flashbots/mev-boost#455) -->
-<img alt="MEV-Boost after - single instance with per-validator config" src="/img/mev-boost-after.webp" width="561" height="250"/>
+<img alt="MEV-Boost after - single instance with per-validator config" src="https://happygopher.nl/img/mev-boost-after.webp" width="561" height="250"/>
 
 After months of discussion and refinement, I implemented the [complete solution](https://github.com/flashbots/mev-boost/pull/470/files). The architecture centers on two components: a `Relay Configuration Manager (RCM)` that holds validator-relay mappings, and a pluggable `Relay Configuration Provider (RCP)` that loads configs from files or APIs. Configuration updates happen without service restarts (using lock-free atomics for safety), and the optimized implementation achieved **26%** latency improvement.
 

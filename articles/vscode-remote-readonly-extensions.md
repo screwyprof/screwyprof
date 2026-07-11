@@ -6,6 +6,7 @@ description: >-
   EntryWriteLocked. Why it happens, and how to work around it.
 date: 2026-06-23
 tags: [tooling]
+linkedin: 'https://www.linkedin.com/posts/maksim-shcherbo_softwareenginerring-vscode-nix-share-7474974533335101440-vH5q/'
 --->
 # Why VS Code can't install extensions to a remote when your local ones are read-only
 
