@@ -87,22 +87,14 @@ Pioneered verifiable, unbiasable on-chain randomness — a threshold-BLS random 
 
 ## ✍️ Writing
 
-Full archive — with build-time code highlighting — on **[happygopher.nl/writing](https://happygopher.nl/writing)**.
+Full archive — with build-time code highlighting — on **[happygopher.nl/writing](https://happygopher.nl/writing)**. Each links to the post, with its LinkedIn discussion alongside.
 
-- [Designing Hot-Reloadable Per-Tenant Routing](https://happygopher.nl/writing/mev-boost-hot-reloadable-relay-config/)
-- [A Password Hash on Every API Call: The Bug That Restarted Our Validators Every Two Hours](https://happygopher.nl/writing/lighthouse-web3signer-scrypt/)
-- [What Actually Moved the Score: A Rust Auth Server on highload.fun](https://happygopher.nl/writing/highload-fun-auth-server/)
-- [TCP_NODELAY: One Line, 135x Faster in KurrentDB's Rust Client](https://happygopher.nl/writing/kurrentdb-rust-nagle/)
-- [Why VS Code can't install extensions to a remote when your local ones are read-only](https://happygopher.nl/writing/vscode-remote-readonly-extensions/)
-- [Building Financial Infrastructure That Must Not Fail](https://happygopher.nl/writing/building-financial-infrastructure-that-must-not-fail/)
-
-**Discussion on LinkedIn:**
-- [Designing Hot-Reloadable Per-Tenant Routing](https://www.linkedin.com/posts/maksim-shcherbo_go-distributedsystems-softwarearchitecture-share-7483022386888421376-4GDX/)
-- [A Password Hash on Every API Call: The Bug That Restarted Our Validators Every Two Hours](https://www.linkedin.com/posts/maksim-shcherbo_reliability-ethereum-rust-share-7480964307736973312-z_ME/)
-- [What Actually Moved the Score: A Rust Auth Server on highload.fun](https://www.linkedin.com/posts/maksim-shcherbo_rust-highload-performance-share-7479786319825600513-Z4W9/)
-- [TCP_NODELAY: One Line, 135x Faster in KurrentDB's Rust Client](https://www.linkedin.com/posts/maksim-shcherbo_rust-grpc-eventsourcing-share-7475345091214258176-2qN1/)
-- [Why VS Code can't install extensions to a remote when your local ones are read-only](https://www.linkedin.com/posts/maksim-shcherbo_softwareenginerring-vscode-nix-share-7474974533335101440-vH5q/)
-- [Building Financial Infrastructure That Must Not Fail](https://www.linkedin.com/pulse/building-infrastructure-must-fail-maksim-shcherbo-1d4se/)
+- [Designing Hot-Reloadable Per-Tenant Routing](https://happygopher.nl/writing/mev-boost-hot-reloadable-relay-config/) · [💬 LinkedIn](https://www.linkedin.com/posts/maksim-shcherbo_go-distributedsystems-softwarearchitecture-share-7483022386888421376-4GDX/)
+- [A Password Hash on Every API Call: The Bug That Restarted Our Validators Every Two Hours](https://happygopher.nl/writing/lighthouse-web3signer-scrypt/) · [💬 LinkedIn](https://www.linkedin.com/posts/maksim-shcherbo_reliability-ethereum-rust-share-7480964307736973312-z_ME/)
+- [What Actually Moved the Score: A Rust Auth Server on highload.fun](https://happygopher.nl/writing/highload-fun-auth-server/) · [💬 LinkedIn](https://www.linkedin.com/posts/maksim-shcherbo_rust-highload-performance-share-7479786319825600513-Z4W9/)
+- [TCP_NODELAY: One Line, 135x Faster in KurrentDB's Rust Client](https://happygopher.nl/writing/kurrentdb-rust-nagle/) · [💬 LinkedIn](https://www.linkedin.com/posts/maksim-shcherbo_rust-grpc-eventsourcing-share-7475345091214258176-2qN1/)
+- [Why VS Code can't install extensions to a remote when your local ones are read-only](https://happygopher.nl/writing/vscode-remote-readonly-extensions/) · [💬 LinkedIn](https://www.linkedin.com/posts/maksim-shcherbo_softwareenginerring-vscode-nix-share-7474974533335101440-vH5q/)
+- [Building Financial Infrastructure That Must Not Fail](https://happygopher.nl/writing/building-financial-infrastructure-that-must-not-fail/) · [💬 LinkedIn](https://www.linkedin.com/pulse/building-infrastructure-must-fail-maksim-shcherbo-1d4se/)
 
 ---
 
