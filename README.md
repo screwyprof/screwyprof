@@ -89,6 +89,7 @@ Pioneered verifiable, unbiasable on-chain randomness — a threshold-BLS random 
 
 Full archive on **[happygopher.nl/writing](https://happygopher.nl/writing)**.
 
+- [Making Operational Decisions Explainable](https://happygopher.nl/writing/making-operational-decisions-explainable/)
 - [Designing Hot-Reloadable Per-Tenant Routing](https://happygopher.nl/writing/mev-boost-hot-reloadable-relay-config/)
 - [A Password Hash on Every API Call: The Bug That Restarted Our Validators Every Two Hours](https://happygopher.nl/writing/lighthouse-web3signer-scrypt/)
 - [What Actually Moved the Score: A Rust Auth Server on highload.fun](https://happygopher.nl/writing/highload-fun-auth-server/)
