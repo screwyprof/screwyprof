@@ -1,8 +1,8 @@
-# Maksim Shcherbo — Backend & Distributed Systems Engineer
+# Maksim Shcherbo — Staff Backend Engineer
 
 **I build infrastructure that must not fail — and stop outages before they happen.**
 
-Software Engineer | Backend & Distributed Systems · Reliability · Scalability · Go · Rust · Ethereum
+Distributed Systems · Reliability · Scalability · Go · Rust · Ethereum
 
 🌐 **[happygopher.nl](https://happygopher.nl)** · 📄 **[Résumé](https://happygopher.nl/resume)** · ✍️ **[Writing](https://happygopher.nl/writing)** · *(also known as [@screwyprof](https://github.com/screwyprof))*
 
@@ -101,7 +101,7 @@ Full archive on **[happygopher.nl/writing](https://happygopher.nl/writing)**.
 
 ## 🎯 What I'm looking for
 
-Open to **Senior / Staff / Principal** backend & distributed-systems roles — reliability, architecture, and scale. **Remote-only**, hands-on IC, **no people management**.
+Open to **Senior / Staff+** backend & distributed-systems roles — reliability, architecture, and scale. **Remote-only**, hands-on IC, **no people management**.
 
 I keep complex business domains safe to change and easy to reason about, and raise the engineering bar by proof, not mandate.
 
