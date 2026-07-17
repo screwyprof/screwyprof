@@ -25,7 +25,7 @@ Distributed Systems · Reliability · Scalability · Go · Rust · Ethereum
 
 ## About
 
-I make reliability systematic, not reactive. Over ~13 years I've taken fragile financial, e-commerce, and blockchain backends and made them scale predictably and recover on their own — pairing deep engineering discipline with simple, legible design. I set technical direction as a hands-on IC: standards, RFCs/ADRs, and CI gates, not headcount.
+I make reliability systematic, not reactive. I've taken fragile financial, e-commerce, and blockchain backends and made them scale predictably and recover on their own — pairing deep engineering discipline with simple, legible design. I set technical direction as a hands-on IC: standards, RFCs/ADRs, and CI gates, not headcount.
 
 ---
 
@@ -101,7 +101,7 @@ Full archive on **[happygopher.nl/writing](https://happygopher.nl/writing)**.
 
 ## 🎯 What I'm looking for
 
-Open to **Senior / Staff+** backend & distributed-systems roles — reliability, architecture, and scale. **Remote-only**, hands-on IC, **no people management**.
+Open to **senior and staff** backend & distributed-systems roles — reliability, architecture, and scale. **Remote-only**, hands-on IC, **no people management**.
 
 I keep complex business domains safe to change and easy to reason about, and raise the engineering bar by proof, not mandate.
 
